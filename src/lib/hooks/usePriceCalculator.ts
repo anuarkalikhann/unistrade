@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useAppStore } from '@/store/useAppStore';
 import { PRICING_RULES } from '@/constants/pricingRules';
+import { AWNINGS_PRICING_TABLE, EUR_TO_KGS, AwningPricingEntry } from '@/constants/awningsData';
 
 export const usePriceCalculator = () => {
     const currentProduct = useAppStore((state) => state.currentProduct);
@@ -17,6 +18,8 @@ export const usePriceCalculator = () => {
     // 1. Dimensions (Moved to top scope for shared availability)
     const width = parseFloat(formData.width || '0');
     const height = parseFloat(formData.height || '0');
+    const projection = parseFloat(formData.projection || '0');
+    const length = parseFloat(formData.length || '0');
 
     let structurePrice = 0;
 
@@ -53,6 +56,43 @@ export const usePriceCalculator = () => {
 
         structurePrice = dimensionPrice * frameMultiplier;
 
+        // SPECIAL OVERRIDE FOR AWNINGS PRODUCTION LOOKUP
+        if (currentProduct.id === 'awnings-production') {
+            const model = formData.model;
+            const fabric = formData.fabric;
+            const angle = formData.angle ? parseInt(formData.angle) : undefined;
+            const w_m = width / 1000;
+            const p_m = projection / 1000;
+
+            const modelEntries = AWNINGS_PRICING_TABLE.filter((e: AwningPricingEntry) => {
+                const matchesModel = e.model === model;
+                const matchesFabric = e.fabric === fabric;
+                const matchesAngle = e.angle ? e.angle === angle : true;
+                return matchesModel && matchesFabric && matchesAngle;
+            });
+
+            if (modelEntries.length > 0) {
+                const possibleWidths = Array.from(new Set(modelEntries.map((e: AwningPricingEntry) => e.width_m))).sort(
+                    (a: number, b: number) => a - b
+                );
+                const targetWidth = possibleWidths.find((w: number) => w >= w_m);
+
+                if (targetWidth) {
+                    const widthEntries = modelEntries.filter((e: AwningPricingEntry) => e.width_m === targetWidth);
+                    const possibleProjections = Array.from(
+                        new Set(widthEntries.map((e: AwningPricingEntry) => e.projection_m))
+                    ).sort((a: number, b: number) => a - b);
+                    const targetProjection = possibleProjections.find((p: number) => p >= p_m);
+
+                    if (targetProjection) {
+                        const entry = widthEntries.find((e: AwningPricingEntry) => e.projection_m === targetProjection);
+                        if (entry) {
+                            structurePrice = entry.price_eur * EUR_TO_KGS;
+                        }
+                    }
+                }
+            }
+        }
     } else if (strategy === 'area') {
         const areaM2 = (width * height) / 1000000; // mm to m^2
         let pricePerSqm = 0;
@@ -150,6 +190,9 @@ export const usePriceCalculator = () => {
             const value = formData[opt.id];
             if (!value) return;
 
+            // Special case for 'awnings-production' global quantity - skip from options sum
+            if (currentProduct.id === 'awnings-production' && opt.id === 'quantity') return;
+
             // Handle Select
             if (opt.type === 'select' && opt.options) {
                 const selected = opt.options.find(o => o.value === value);
@@ -162,7 +205,7 @@ export const usePriceCalculator = () => {
                 }
             }
 
-            if (opt.type === 'number' && opt.priceType === 'quantity') {
+            if ((opt.type === 'number' || opt.type === 'input') && opt.priceType === 'quantity') {
                 const quantity = parseFloat(value || '0');
                 if (!isNaN(quantity)) {
                     let pricePerUnit = opt.pricePerUnit || 0;
@@ -182,5 +225,145 @@ export const usePriceCalculator = () => {
         });
     }
 
-    return Math.round(structurePrice + optionsPrice);
+    let result = structurePrice + optionsPrice;
+
+    // 4. Global Multipliers and Special Formulas
+    if (currentProduct.id === 'awnings-production') {
+        const qty = parseFloat(formData.quantity || '1');
+        if (!isNaN(qty) && qty > 0) {
+            result *= qty;
+        }
+    } else if (currentProduct.id === 'umbrellas-production') {
+        // Formula: Total = (Price_for_size * quantity) + unaccounted_costs
+        // In our PRICING_RULES, 'unaccounted_costs' is in options.
+        // We need to re-calculate to separate them.
+
+        let priceForSize = 0;
+        const sizeOpt = rule.options?.find(o => o.id === 'selected_size');
+        if (sizeOpt && sizeOpt.options) {
+            const selectedVal = formData['selected_size'];
+            const selected = sizeOpt.options.find(o => o.value === selectedVal);
+            if (selected) priceForSize = selected.price;
+        }
+
+        const qty = parseFloat(formData.quantity || '1');
+        const unaccounted = parseFloat(formData.unaccounted_costs || '0');
+
+        result = (priceForSize * qty) + unaccounted;
+    } else if (currentProduct.id === 'ready-made-awnings' || currentProduct.id === 'ready-made-umbrellas-3x3-light') {
+        const qty = parseFloat(formData.quantity || '1');
+        if (!isNaN(qty) && qty > 0) {
+            result *= qty;
+        }
+    } else if (currentProduct.id === 'pergolas-production') {
+        // Special logic: Area is width * length.
+        // optionsPrice already includes fixed additions (anchors, cable, etc. which are quantity-based in rules)
+        // and it also includes the model select price (which we currently have as price_per_m2).
+        // So we need to re-calculate: (Area * ModelPrice) + (OtherOptions)
+
+        const areaM2 = (width * length) / 1000000;
+        let modelPricePerM2 = 0;
+        const modelOpt = rule.options?.find(o => o.id === 'model');
+        if (modelOpt && modelOpt.options) {
+            const selectedVal = formData['model'];
+            const selected = modelOpt.options.find(o => o.value === selectedVal);
+            if (selected) modelPricePerM2 = selected.price;
+        }
+
+        // We need to subtract the 'model' fixed price from optionsPrice if it was added there,
+        // or just calculate from scratch.
+        // Standard logic: optionsPrice += selected.price (if fixed).
+        // Since model is 'fixed', it's in optionsPrice.
+
+        // Let's recalculate correctly:
+        // total = (area * modelPrice) + (anchors * 700) + (cable * 180) + (chipping * 500) + unaccounted
+
+        // Re-read options logic: 
+        // anchors, cable, chipping, unaccounted are 'quantity' type.
+        // and they are added to optionsPrice.
+
+        structurePrice = areaM2 * modelPricePerM2;
+
+        // Subtract model price from optionsPrice to avoid double counting
+        const currentOptionsPrice = optionsPrice - modelPricePerM2;
+
+        result = structurePrice + currentOptionsPrice;
+
+        const qty = parseFloat(formData.quantity || '1');
+        if (!isNaN(qty) && qty > 0) {
+            result *= qty;
+        }
+    } else if (currentProduct.id === 'ready-made-bioclimatic-pergolas') {
+        const qty = parseFloat(formData.quantity || '1');
+        const selectedSize = formData['selected_size'];
+
+        let priceOfSelectedSize = 0;
+        let totalM2 = 0;
+
+        const sizeOpt = rule.options?.find(o => o.id === 'selected_size');
+        if (sizeOpt && sizeOpt.options) {
+            const selected = sizeOpt.options.find(o => o.value === selectedSize);
+            if (selected) {
+                priceOfSelectedSize = selected.price;
+                // Extract m2 from value (e.g. "3x3" -> 9)
+                const dims = selected.value.split('x').map(d => parseFloat(d));
+                if (dims.length === 2) {
+                    totalM2 = dims[0] * dims[1];
+                }
+            }
+        }
+
+        const step1 = priceOfSelectedSize * qty;
+
+        let step2 = 0;
+        if (formData['installation_required'] === 'yes') {
+            step2 = totalM2 * 3600;
+        }
+
+        // step3 (additional works) and step4 (misc) are already in optionsPrice 
+        // since we defined them as options with quantity price type.
+        // However, standard logic adds ALL options. 
+        // We need to re-calculate to be precise.
+
+        const anchors = parseFloat(formData.chemical_anchors || '0');
+        const cable = parseFloat(formData.power_cable || '0');
+        const chasing = parseFloat(formData.wall_chasing || '0');
+        const unaccounted = parseFloat(formData.unaccounted_sum || '0');
+
+        const step3 = (anchors * 700) + (cable * 180) + (chasing * 500);
+        const step4 = unaccounted;
+
+        result = step1 + step2 + step3 + step4;
+    } else if (currentProduct.id === 'bloom-zip') {
+        const qty = parseFloat(formData.quantity || '1');
+        if (!isNaN(qty) && qty > 0) {
+            result *= qty;
+        }
+    } else if (currentProduct.id === 'frameless-glazing') {
+        const w = parseFloat(formData.width_mm || '0');
+        const h = parseFloat(formData.height_mm || '0');
+        const holes = parseFloat(formData.holes_count || '0');
+        const overhead = parseFloat(formData.overhead_costs || '0');
+
+        const area = (w / 1000) * (h / 1000);
+
+        // Total = (Area * 8900) + (Area * 1500) + (holes * 2500) + overhead
+        result = (area * 8900) + (area * 1500) + (holes * 2500) + overhead;
+    } else if (currentProduct.id === 'soft-windows') {
+        const wb = parseFloat(formData.width_bottom || '0');
+        const wt = parseFloat(formData.width_top || '0');
+        const hl = parseFloat(formData.height_left || '0');
+        const hr = parseFloat(formData.height_right || '0');
+
+        const area = (((wb + wt) / 2) * ((hl + hr) / 2)) / 1000000;
+
+        const zippers = parseFloat(formData.zipper_quantity || '0');
+        const frameAdd = parseFloat(formData.frame_additional_cost || '0');
+        const miscAdd = parseFloat(formData.miscellaneous_additional_cost || '0');
+
+        // Total = (Area_m2 * film_price_per_m2[2700]) + (zipper_quantity * zipper_price_per_unit[2000]) + frame_additional_cost + miscellaneous_additional_cost
+        result = (area * 2700) + (zippers * 2000) + frameAdd + miscAdd;
+    }
+
+    return Math.round(result);
 };

@@ -10,8 +10,10 @@ import { ArrowRight } from 'lucide-react';
 export const ProductGrid = () => {
     const router = useRouter();
     const setProduct = useAppStore((state) => state.setProduct);
+    const reset = useAppStore((state) => state.reset);
 
     const handleSelect = (product: Product) => {
+        reset();
         setProduct(product);
         router.push('/calculator');
     };

@@ -9,7 +9,16 @@ export type ProductId =
     | 'swing-automation'
     | 'sectional-repair'
     | 'turnstile'
-    | 'wicket';
+    | 'wicket'
+    | 'awnings-production'
+    | 'umbrellas-production'
+    | 'ready-made-awnings'
+    | 'ready-made-umbrellas-3x3-light'
+    | 'pergolas-production'
+    | 'ready-made-bioclimatic-pergolas'
+    | 'bloom-zip'
+    | 'frameless-glazing'
+    | 'soft-windows';
 
 export interface Product {
     id: ProductId;
@@ -45,8 +54,13 @@ export interface AdditionalOption {
     pricePerUnit?: number;
     unit?: string;
     options?: { label: string; value: string; price: number }[]; // For select types
+    hidePriceInLabel?: boolean; // New flag to hide price hint in UI
     dependsOn?: string; // ID of the option this price depends on
     dependentPriceRules?: Record<string, number>; // Map value of dependent option -> price per unit
+    visibleIf?: {
+        optionId: string;
+        values: string[];
+    };
 }
 
 export interface PricingRule {

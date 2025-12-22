@@ -3181,5 +3181,1128 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceValue: 0
             }
         ]
+    },
+    'awnings-production': {
+        productId: 'awnings-production',
+        hideDimensions: true,
+        dimensions: {
+            baseWidth: 0,
+            baseHeight: 0,
+            basePrice: 0,
+            widthStep: 0,
+            widthPricePerStep: 0,
+            heightStep: 0,
+            heightPricePerStep: 0,
+        },
+        frames: [],
+        options: [
+            // Модель и Размеры
+            {
+                id: 'model',
+                section: 'Модель и Размеры',
+                label: 'Модель',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'Barcelona', value: 'BARCELONA', price: 0 },
+                    { label: 'Bloom classic', value: 'BLOOM_CLASSIC', price: 0 },
+                    { label: 'Bloom classic +', value: 'BLOOM_CLASSIC_PLUS', price: 0 },
+                    { label: 'Bloom light', value: 'BLOOM_LIGHT', price: 0 },
+                    { label: 'Bloom hard', value: 'BLOOM_HARD', price: 0 },
+                    { label: 'Bloom window', value: 'BLOOM_WINDOW', price: 0 },
+                    { label: 'Bloom window+', value: 'BLOOM_WINDOW_PLUS', price: 0 },
+                    { label: 'Bloom vertical', value: 'BLOOM_VERTICAL', price: 0 },
+                    { label: 'Bloom dome', value: 'bloom_dome', price: 0 },
+                    { label: 'Bloom bascet', value: 'bloom_bascet', price: 0 },
+                    { label: 'Bloom zip', value: 'BLOOM_ZIP', price: 0 },
+                    { label: 'Bloom roll', value: 'bloom_roll', price: 0 }
+                ],
+                hidePriceInLabel: true
+            },
+            {
+                id: 'fabric',
+                section: 'Модель и Размеры',
+                label: 'Ткань',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'Docril', value: 'Docril', price: 0 }
+                ],
+                hidePriceInLabel: true
+            },
+            {
+                id: 'angle',
+                section: 'Модель и Размеры',
+                label: 'Угол наклона',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: '90°', value: '90', price: 0 },
+                    { label: '160°', value: '160', price: 0 }
+                ],
+                hidePriceInLabel: true,
+                visibleIf: {
+                    optionId: 'model',
+                    values: ['BLOOM_WINDOW', 'BLOOM_WINDOW_PLUS']
+                }
+            },
+            {
+                id: 'width',
+                section: 'Модель и Размеры',
+                label: 'Ширина (мм)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'projection',
+                section: 'Модель и Размеры',
+                label: 'Вылет (мм)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            // Оснащение
+            {
+                id: 'lighting',
+                section: 'Оснащение',
+                label: 'Освещение',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'Нет', value: 'none', price: 0 },
+                    { label: 'Локоть до 2.5 м', value: 'arm_2_5', price: 12000 },
+                    { label: 'Локоть до 3.5 м', value: 'arm_3_5', price: 18000 },
+                    { label: 'Локоть 4 м', value: 'arm_4', price: 23500 }
+                ]
+            },
+            {
+                id: 'control_system',
+                section: 'Оснащение',
+                label: 'Управление',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'Ручной', value: 'manual', price: 0 },
+                    { label: 'С ару Hercules HGM45RM', value: 'hgm45rm', price: 12000 },
+                    { label: 'Без ару Hercules HGM45R', value: 'hgm45r', price: 10000 },
+                    { label: 'С ару и освещением Hercules HGM45RMD', value: 'hgm45rmd', price: 15000 }
+                ]
+            },
+            {
+                id: 'additional_remote',
+                section: 'Оснащение',
+                label: 'Доп пульт управления',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: '1 канальный', value: 'chan_1', price: 1800 },
+                    { label: '15 канальный', value: 'chan_15', price: 3800 }
+                ]
+            },
+            {
+                id: 'additional_crank',
+                section: 'Оснащение',
+                label: 'Доп вороток (шт)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 2500,
+                unit: 'шт'
+            },
+            {
+                id: 'logo',
+                section: 'Оснащение',
+                label: 'Логотип',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Есть', value: 'yes', price: 5500 }
+                ]
+            },
+            {
+                id: 'sensors',
+                section: 'Оснащение',
+                label: 'Датчики',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'Нет', value: 'none', price: 0 },
+                    { label: 'Датчик ветра', value: 'wind', price: 10000 },
+                    { label: 'Датчик колебания', value: 'vibration', price: 7000 }
+                ]
+            },
+            // Работы
+            {
+                id: 'installation_works',
+                section: 'Работы',
+                label: 'Монтажные работы',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'До 2.5 метров', value: 'up_to_2_5', price: 3000 },
+                    { label: 'До 4.5 метра', value: 'up_to_4_5', price: 6000 },
+                    { label: 'До 6 метров', value: 'up_to_6', price: 11000 }
+                ]
+            },
+            {
+                id: 'high_altitude_work',
+                section: 'Работы',
+                label: 'Высотная работа',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'До 3.5 метра', value: 'up_to_3_5', price: 0 },
+                    { label: 'До 4.5 метров', value: 'up_to_4_5', price: 3500 },
+                    { label: 'До 6 метров', value: 'up_to_6', price: 6500 },
+                    { label: 'Выше 6 метров', value: 'above_6', price: 15000 }
+                ]
+            },
+            {
+                id: 'chemical_anchors',
+                section: 'Работы',
+                label: 'Хим анкеры (шт)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 700,
+                unit: 'шт'
+            },
+            {
+                id: 'power_cable',
+                section: 'Работы',
+                label: 'Подводка силового кабеля (м)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 180,
+                unit: 'метр'
+            },
+            {
+                id: 'wall_channeling',
+                section: 'Работы',
+                label: 'Штробление + замазка (м)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 500,
+                unit: 'метр'
+            },
+            {
+                id: 'unaccounted_expenses',
+                section: 'Работы',
+                label: 'Неучтенка (сом)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 1,
+                unit: 'сум'
+            },
+            // Параметры
+            {
+                id: 'frame_color',
+                section: 'Параметры',
+                label: 'Цвет каркаса',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'Белый', value: 'white', price: 0 },
+                    { label: 'Антрацит', value: 'anthracite', price: 0 },
+                    { label: 'Черный', value: 'black', price: 0 }
+                ],
+                hidePriceInLabel: true
+            },
+            {
+                id: 'fabric_color_code',
+                section: 'Параметры',
+                label: 'Код цвета ткани',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'control_side',
+                section: 'Параметры',
+                label: 'Сторона управления',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'Правая', value: 'right', price: 0 },
+                    { label: 'Левая', value: 'left', price: 0 }
+                ],
+                hidePriceInLabel: true
+            },
+            {
+                id: 'valance',
+                section: 'Параметры',
+                label: 'Волан',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'Да', value: 'yes', price: 0 },
+                    { label: 'Нет', value: 'no', price: 0 }
+                ],
+                hidePriceInLabel: true
+            },
+            {
+                id: 'mounting_type',
+                section: 'Параметры',
+                label: 'Тип крепления',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'Потолок', value: 'ceiling', price: 0 },
+                    { label: 'Стена', value: 'wall', price: 0 }
+                ],
+                hidePriceInLabel: true
+            },
+            {
+                id: 'wall_surface_chars',
+                section: 'Параметры',
+                label: 'Хар-ки поверхности стене',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'Сары таш', value: 'sary_tash', price: 0 },
+                    { label: 'Алюкобон', value: 'alucobond', price: 0 },
+                    { label: 'Клинкер', value: 'clinker', price: 0 },
+                    { label: 'Керамогранит', value: 'porcelain', price: 0 },
+                    { label: 'Прочее', value: 'other', price: 0 }
+                ]
+            },
+            {
+                id: 'distance_from_facade',
+                section: 'Параметры',
+                label: 'Отступ от фасада (мм)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0,
+                unit: 'мм'
+            },
+            {
+                id: 'notes',
+                section: 'Параметры',
+                label: 'Примечания',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'quantity',
+                section: 'Итого',
+                label: 'Кол-во (штук)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0,
+                unit: 'штук'
+            }
+        ]
+    },
+    'umbrellas-production': {
+        productId: 'umbrellas-production',
+        hideDimensions: true,
+        dimensions: {
+            baseWidth: 0,
+            baseHeight: 0,
+            basePrice: 0,
+            widthStep: 0,
+            widthPricePerStep: 0,
+            heightStep: 0,
+            heightPricePerStep: 0,
+        },
+        frames: [],
+        options: [
+            {
+                id: 'selected_size',
+                section: 'Параметры заказа',
+                label: 'Размер',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: '3x3', value: '3x3', price: 120300 },
+                    { label: '3.5x3.5', value: '3.5x3.5', price: 156000 },
+                    { label: '4x4', value: '4x4', price: 160000 },
+                    { label: 'двух куп 3x3', value: 'twin_3x3', price: 172500 },
+                    { label: 'двух куп 3.5x3.5', value: 'twin_3.5x3.5', price: 270000 },
+                    { label: 'двух куп 4x4', value: 'twin_4x4', price: 277600 }
+                ]
+            },
+            {
+                id: 'quantity',
+                section: 'Параметры заказа',
+                label: 'Кол-во',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0,
+                unit: 'шт'
+            },
+            {
+                id: 'fabric_color_code',
+                section: 'Характеристики',
+                label: 'Код цвета ткани',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'logo',
+                section: 'Характеристики',
+                label: 'Логотип',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'base',
+                section: 'Характеристики',
+                label: 'Основание',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'unaccounted_costs',
+                section: 'Дополнительно',
+                label: 'Неучтенка (сумма)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 1,
+                unit: 'сом'
+            },
+            {
+                id: 'unaccounted_description',
+                section: 'Дополнительно',
+                label: 'Описание неучтенки',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'notes',
+                section: 'Дополнительно',
+                label: 'Примечания',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            }
+        ]
+    },
+    'ready-made-awnings': {
+        productId: 'ready-made-awnings',
+        hideDimensions: true,
+        dimensions: {
+            baseWidth: 0,
+            baseHeight: 0,
+            basePrice: 0,
+            widthStep: 0,
+            widthPricePerStep: 0,
+            heightStep: 0,
+            heightPricePerStep: 0,
+        },
+        frames: [],
+        options: [
+            // Выбор модели
+            {
+                id: 'model_size',
+                section: 'Выбор маркизы',
+                label: 'Размер (Ширина x Вылет)',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: '3 x 2.5', value: '3x2.5', price: 17100 },
+                    { label: '3.5 x 2.5', value: '3.5x2.5', price: 18000 },
+                    { label: '4 x 3', value: '4x3', price: 21600 },
+                    { label: '5 x 3', value: '5x3', price: 24750 }
+                ]
+            },
+            {
+                id: 'color',
+                section: 'Выбор маркизы',
+                label: 'Цвет',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'беж', value: 'beige', price: 0 },
+                    { label: 'желтовато белый', value: 'yellowish_white', price: 0 }
+                ]
+            },
+            // Работы и допы
+            {
+                id: 'installation_works',
+                section: 'Работы',
+                label: 'Монтажные работы',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'Не требуется', value: 'none', price: 0 },
+                    { label: 'До 2.5 метров', value: 'max_2.5', price: 3000 },
+                    { label: 'До 4.5 метров', value: 'max_4.5', price: 6000 },
+                    { label: 'До 6.0 метров', value: 'max_6.0', price: 11000 }
+                ]
+            },
+            {
+                id: 'unaccounted_expenses',
+                section: 'Работы',
+                label: 'Неучтенка (сумма)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 1,
+                unit: 'сом'
+            },
+            {
+                id: 'unaccounted_description',
+                section: 'Работы',
+                label: 'Описание неучтенки',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            // Общее
+            {
+                id: 'quantity',
+                section: 'Общее',
+                label: 'Количество (шт)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0,
+                unit: 'шт'
+            }
+        ]
+    },
+    'ready-made-umbrellas-3x3-light': {
+        productId: 'ready-made-umbrellas-3x3-light',
+        hideDimensions: true,
+        dimensions: {
+            baseWidth: 0,
+            baseHeight: 0,
+            basePrice: 39000,
+            widthStep: 0,
+            widthPricePerStep: 0,
+            heightStep: 0,
+            heightPricePerStep: 0,
+        },
+        frames: [],
+        options: [
+            {
+                id: 'color',
+                section: 'Параметры',
+                label: 'Цвет ткани',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'бежевый', value: 'beige', price: 0 },
+                    { label: 'темно-красный', value: 'dark_red', price: 0 },
+                    { label: 'темно-зеленый', value: 'dark_green', price: 0 },
+                    { label: 'белый', value: 'white', price: 0 },
+                    { label: 'коричневый', value: 'brown', price: 0 }
+                ]
+            },
+            {
+                id: 'quantity',
+                section: 'Параметры',
+                label: 'Кол-во',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0,
+                unit: 'шт'
+            }
+        ]
+    },
+    'pergolas-production': {
+        productId: 'pergolas-production',
+        hideDimensions: true,
+        dimensions: {
+            baseWidth: 0,
+            baseHeight: 0,
+            basePrice: 0,
+            widthStep: 0,
+            widthPricePerStep: 0,
+            heightStep: 0,
+            heightPricePerStep: 0,
+        },
+        frames: [],
+        options: [
+            // Модель и Размеры
+            {
+                id: 'model',
+                section: 'Модель и Размеры',
+                label: 'Модель',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'тентовая эко', value: 'tent_eco', price: 9400 },
+                    { label: 'тентовая авто', value: 'tent_auto', price: 24400 },
+                    { label: 'биоклимат 265 модель', value: 'bioclimat_265', price: 57600 },
+                    { label: 'биоклимат 240 модель сдвиж', value: 'bioclimat_240_sliding', price: 61600 }
+                ]
+            },
+            {
+                id: 'width',
+                section: 'Модель и Размеры',
+                label: 'Ширина (мм)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'length',
+                section: 'Модель и Размеры',
+                label: 'Длина (мм)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            // Оснащение и услуги
+            {
+                id: 'anchors_count',
+                section: 'Оснащение и услуги',
+                label: 'Хим анкеры (шт)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 700,
+                unit: 'шт'
+            },
+            {
+                id: 'cable_meters',
+                section: 'Оснащение и услуги',
+                label: 'Подводка силового кабеля (м)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 180,
+                unit: 'м'
+            },
+            {
+                id: 'chipping_meters',
+                section: 'Оснащение и услуги',
+                label: 'Штробление + замазка (м)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 500,
+                unit: 'м'
+            },
+            {
+                id: 'unaccounted_sum',
+                section: 'Оснащение и услуги',
+                label: 'Неучтенка (сумма)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 1,
+                unit: 'сом'
+            },
+            // Параметры
+            {
+                id: 'lighting',
+                section: 'Параметры',
+                label: 'Освещение',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'Да', value: 'yes', price: 0 },
+                    { label: 'Нет', value: 'no', price: 0 }
+                ]
+            },
+            {
+                id: 'mounting_type_general',
+                section: 'Параметры',
+                label: 'Вид крепления',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'wall_chars',
+                section: 'Параметры',
+                label: 'Характеристика стены/потолка',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'installation_type',
+                section: 'Параметры',
+                label: 'Тип монтажа',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'note',
+                section: 'Параметры',
+                label: 'Примечание',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'quantity',
+                section: 'Итого',
+                label: 'Кол-во (штук)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0,
+                unit: 'штук'
+            }
+        ]
+    },
+    'ready-made-bioclimatic-pergolas': {
+        productId: 'ready-made-bioclimatic-pergolas',
+        hideDimensions: true,
+        dimensions: {
+            baseWidth: 0,
+            baseHeight: 0,
+            basePrice: 0,
+            widthStep: 0,
+            widthPricePerStep: 0,
+            heightStep: 0,
+            heightPricePerStep: 0,
+        },
+        frames: [],
+        options: [
+            // Выбор модели
+            {
+                id: 'selected_size',
+                section: 'Параметры заказа',
+                label: 'Размер',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: '3x3', value: '3x3', price: 169900 },
+                    { label: '4x4', value: '4x4', price: 254880 },
+                    { label: '3x4', value: '3x4', price: 173700 },
+                    { label: '3x5', value: '3x5', price: 238950 },
+                    { label: '4x6', value: '4x6', price: 382320 }
+                ]
+            },
+            {
+                id: 'quantity',
+                section: 'Параметры заказа',
+                label: 'Кол-во',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0,
+                unit: 'шт'
+            },
+            // Услуги
+            {
+                id: 'installation_required',
+                section: 'Монтаж',
+                label: 'Монтажные работы',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'Да', value: 'yes', price: 0 },
+                    { label: 'Нет', value: 'no', price: 0 }
+                ]
+            },
+            // Дополнительные работы
+            {
+                id: 'chemical_anchors',
+                section: 'Дополнительные работы',
+                label: 'Хим анкеры (шт)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 700,
+                unit: 'шт'
+            },
+            {
+                id: 'power_cable',
+                section: 'Дополнительные работы',
+                label: 'Подводка силового кабеля (м)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 180,
+                unit: 'м'
+            },
+            {
+                id: 'wall_chasing',
+                section: 'Дополнительные работы',
+                label: 'Штробление + замазка (м)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 500,
+                unit: 'м'
+            },
+            {
+                id: 'unaccounted_sum',
+                section: 'Дополнительные работы',
+                label: 'Неучтенка (сумма)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 1,
+                unit: 'сом'
+            }
+        ]
+    },
+    'bloom-zip': {
+        productId: 'bloom-zip',
+        dimensions: {
+            baseWidth: 0,
+            baseHeight: 0,
+            basePrice: 0,
+            widthStep: 0,
+            widthPricePerStep: 0,
+            heightStep: 0,
+            heightPricePerStep: 0,
+        },
+        frames: [],
+        options: [
+            // Технические параметры
+            {
+                id: 'width',
+                section: 'Технические параметры',
+                label: 'Ширина (мм)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0,
+                unit: 'мм'
+            },
+            {
+                id: 'height',
+                section: 'Технические параметры',
+                label: 'Высота (мм)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0,
+                unit: 'мм'
+            },
+            {
+                id: 'visibility',
+                section: 'Технические параметры',
+                label: '% видимости',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: '0%', value: '0', price: 0 },
+                    { label: '1%', value: '1', price: 0 },
+                    { label: '5%', value: '5', price: 0 },
+                    { label: '10%', value: '10', price: 0 },
+                    { label: '20%', value: '20', price: 0 },
+                    { label: '30%', value: '30', price: 0 }
+                ]
+            },
+            // Цвета
+            {
+                id: 'frame_color',
+                section: 'Цвета',
+                label: 'Цвет каркаса',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'черный', value: 'black', price: 0 },
+                    { label: 'темно-серый', value: 'dark_gray', price: 0 },
+                    { label: 'коричневый', value: 'brown', price: 0 },
+                    { label: 'светло-серый', value: 'light_gray', price: 0 }
+                ]
+            },
+            {
+                id: 'fabric_color',
+                section: 'Цвета',
+                label: 'Цвет полотна',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'белый', value: 'white', price: 0 },
+                    { label: 'бежевый', value: 'beige', price: 0 },
+                    { label: 'белый микс с серым', value: 'white_gray_mix', price: 0 },
+                    { label: 'светло-серый', value: 'light_gray', price: 0 },
+                    { label: 'темно-серый', value: 'dark_gray', price: 0 },
+                    { label: 'коричневый', value: 'brown', price: 0 },
+                    { label: 'белый микс с черным', value: 'white_black_mix', price: 0 },
+                    { label: 'черный', value: 'black', price: 0 }
+                ]
+            },
+            // Дополнительные услуги
+            {
+                id: 'chemical_anchors',
+                section: 'Дополнительные услуги',
+                label: 'Хим анкеры (шт)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 700,
+                unit: 'шт'
+            },
+            {
+                id: 'power_cable',
+                section: 'Дополнительные услуги',
+                label: 'Подводка силового кабеля (м)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 180,
+                unit: 'метр'
+            },
+            {
+                id: 'wall_chasing',
+                section: 'Дополнительные услуги',
+                label: 'Штробление + замазка (м)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 500,
+                unit: 'метр'
+            },
+            // Прочее
+            {
+                id: 'unrecorded_costs',
+                section: 'Прочее',
+                label: 'Неучтенка (сумма)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 1,
+                unit: 'сом'
+            },
+            {
+                id: 'unrecorded_description',
+                section: 'Прочее',
+                label: 'Описание неучтенки',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'notes',
+                section: 'Прочее',
+                label: 'Примечание',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'quantity',
+                section: 'Итого',
+                label: 'Количество (шт)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0,
+                unit: 'шт'
+            }
+        ]
+    },
+    'frameless-glazing': {
+        productId: 'frameless-glazing',
+        hideDimensions: true,
+        dimensions: {
+            baseWidth: 0,
+            baseHeight: 0,
+            basePrice: 0,
+            widthStep: 0,
+            widthPricePerStep: 0,
+            heightStep: 0,
+            heightPricePerStep: 0,
+        },
+        frames: [],
+        options: [
+            {
+                id: 'width_mm',
+                section: 'Размеры',
+                label: 'Ширина (мм)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0,
+                unit: 'мм'
+            },
+            {
+                id: 'height_mm',
+                section: 'Размеры',
+                label: 'Высота (мм)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0,
+                unit: 'мм'
+            },
+            {
+                id: 'holes_count',
+                section: 'Дополнительно',
+                label: 'Количество отверстий',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 2500,
+                unit: 'шт'
+            },
+            {
+                id: 'overhead_costs',
+                section: 'Дополнительно',
+                label: 'Накладные расходы (сумма)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 1,
+                unit: 'сом'
+            },
+            {
+                id: 'notes',
+                section: 'Дополнительно',
+                label: 'Примечание',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            }
+        ]
+    },
+    'soft-windows': {
+        productId: 'soft-windows',
+        hideDimensions: true,
+        dimensions: {
+            baseWidth: 0,
+            baseHeight: 0,
+            basePrice: 0,
+            widthStep: 0,
+            widthPricePerStep: 0,
+            heightStep: 0,
+            heightPricePerStep: 0,
+        },
+        frames: [],
+        options: [
+            // Пленка и Размеры
+            {
+                id: 'film_type',
+                section: 'Пленка и Размеры',
+                label: 'Тип пленки',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'Прозрачная', value: 'transparent', price: 0 },
+                    { label: 'Затемненная', value: 'tinted', price: 0 }
+                ]
+            },
+            {
+                id: 'width_bottom',
+                section: 'Пленка и Размеры',
+                label: 'Ширина низ (мм)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'width_top',
+                section: 'Пленка и Размеры',
+                label: 'Ширина верх (мм)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'height_left',
+                section: 'Пленка и Размеры',
+                label: 'Высота лево (мм)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'height_right',
+                section: 'Пленка и Размеры',
+                label: 'Высота право (мм)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            // Конфигурация
+            {
+                id: 'zipper_quantity',
+                section: 'Конфигурация',
+                label: 'Молния (шт)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 2000,
+                unit: 'шт'
+            },
+            {
+                id: 'installation_side',
+                section: 'Конфигурация',
+                label: 'Сторона монтажа',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: 'Снаружи', value: 'outside', price: 0 },
+                    { label: 'Внутри', value: 'inside', price: 0 }
+                ]
+            },
+            {
+                id: 'skirt_width',
+                section: 'Конфигурация',
+                label: 'Ширина юбки (мм)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            // Окантовка и Каркас
+            {
+                id: 'edging_color',
+                section: 'Окантовка и Каркас',
+                label: 'Цвет окантовки',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'lower_edging_height',
+                section: 'Окантовка и Каркас',
+                label: 'Высота нижней окантовки (мм)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'frame_profile',
+                section: 'Окантовка и Каркас',
+                label: 'Профиль каркаса (металл/дерево)',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'frame_color',
+                section: 'Окантовка и Каркас',
+                label: 'Цвет каркаса',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'frame_additional_cost',
+                section: 'Окантовка и Каркас',
+                label: 'Доп стоимость каркаса (сом)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 1,
+                unit: 'сом'
+            },
+            // Работы и Дополнительно
+            {
+                id: 'mounting_base',
+                section: 'Работы и Дополнительно',
+                label: 'Основание для монтажа',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'high_altitude_work',
+                section: 'Работы и Дополнительно',
+                label: 'Высотная работа (высота)',
+                type: 'number',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'misc_description',
+                section: 'Работы и Дополнительно',
+                label: 'Описание неучтенки',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            },
+            {
+                id: 'miscellaneous_additional_cost',
+                section: 'Работы и Дополнительно',
+                label: 'Сумма неучтенки (сом)',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: 1,
+                unit: 'сом'
+            },
+            {
+                id: 'note',
+                section: 'Работы и Дополнительно',
+                label: 'Примечание',
+                type: 'input',
+                priceType: 'fixed',
+                priceValue: 0
+            }
+        ]
     }
 };

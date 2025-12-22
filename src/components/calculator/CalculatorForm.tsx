@@ -111,6 +111,14 @@ export const CalculatorForm = () => {
                             const noSection: typeof rule.options = [];
 
                             rule.options.forEach(opt => {
+                                // Check visibility
+                                if (opt.visibleIf) {
+                                    const parentValue = watchedValues[opt.visibleIf.optionId];
+                                    if (!opt.visibleIf.values.includes(parentValue)) {
+                                        return;
+                                    }
+                                }
+
                                 if (opt.section) {
                                     if (!sections[opt.section]) sections[opt.section] = [];
                                     sections[opt.section].push(opt);
@@ -142,7 +150,9 @@ export const CalculatorForm = () => {
                                                                         <SelectContent>
                                                                             {option.options?.map((opt) => (
                                                                                 <SelectItem key={opt.value} value={opt.value}>
-                                                                                    {opt.label} ({opt.price > 0 ? `+${opt.price} сом` : opt.price === 0 ? 'Бесплатно' : `${opt.price} сом`})
+                                                                                    {opt.label} {!option.hidePriceInLabel && (
+                                                                                        <>({opt.price > 0 ? `+${opt.price} сом` : opt.price === 0 ? 'Бесплатно' : `${opt.price} сом`})</>
+                                                                                    )}
                                                                                 </SelectItem>
                                                                             ))}
                                                                         </SelectContent>
@@ -214,7 +224,9 @@ export const CalculatorForm = () => {
                                                                         <SelectContent>
                                                                             {option.options?.map((opt) => (
                                                                                 <SelectItem key={opt.value} value={opt.value}>
-                                                                                    {opt.label} ({opt.price > 0 ? `+${opt.price} сом` : opt.price === 0 ? 'Бесплатно' : `${opt.price} сом`})
+                                                                                    {opt.label} {!option.hidePriceInLabel && (
+                                                                                        <>({opt.price > 0 ? `+${opt.price} сом` : opt.price === 0 ? 'Бесплатно' : `${opt.price} сом`})</>
+                                                                                    )}
                                                                                 </SelectItem>
                                                                             ))}
                                                                         </SelectContent>
