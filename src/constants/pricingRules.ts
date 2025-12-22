@@ -3518,9 +3518,9 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                     { label: '3x3', value: '3x3', price: 120300 },
                     { label: '3.5x3.5', value: '3.5x3.5', price: 156000 },
                     { label: '4x4', value: '4x4', price: 160000 },
-                    { label: 'двух куп 3x3', value: 'twin_3x3', price: 172500 },
-                    { label: 'двух куп 3.5x3.5', value: 'twin_3.5x3.5', price: 270000 },
-                    { label: 'двух куп 4x4', value: 'twin_4x4', price: 277600 }
+                    { label: 'Двух куп 3x3', value: 'twin_3x3', price: 172500 },
+                    { label: 'Двух куп 3.5x3.5', value: 'twin_3.5x3.5', price: 270000 },
+                    { label: 'Двух куп 4x4', value: 'twin_4x4', price: 277600 }
                 ]
             },
             {
@@ -3618,8 +3618,8 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 type: 'select',
                 priceType: 'fixed',
                 options: [
-                    { label: 'беж', value: 'beige', price: 0 },
-                    { label: 'желтовато белый', value: 'yellowish_white', price: 0 }
+                    { label: 'Беж', value: 'beige', price: 0 },
+                    { label: 'Желтовато белый', value: 'yellowish_white', price: 0 }
                 ]
             },
             // Работы и допы
@@ -3686,11 +3686,11 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 type: 'select',
                 priceType: 'fixed',
                 options: [
-                    { label: 'бежевый', value: 'beige', price: 0 },
-                    { label: 'темно-красный', value: 'dark_red', price: 0 },
-                    { label: 'темно-зеленый', value: 'dark_green', price: 0 },
-                    { label: 'белый', value: 'white', price: 0 },
-                    { label: 'коричневый', value: 'brown', price: 0 }
+                    { label: 'Бежевый', value: 'beige', price: 0 },
+                    { label: 'Темно-красный', value: 'dark_red', price: 0 },
+                    { label: 'Темно-зеленый', value: 'dark_green', price: 0 },
+                    { label: 'Белый', value: 'white', price: 0 },
+                    { label: 'Коричневый', value: 'brown', price: 0 }
                 ]
             },
             {
@@ -3726,10 +3726,10 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 type: 'select',
                 priceType: 'fixed',
                 options: [
-                    { label: 'тентовая эко', value: 'tent_eco', price: 9400 },
-                    { label: 'тентовая авто', value: 'tent_auto', price: 24400 },
-                    { label: 'биоклимат 265 модель', value: 'bioclimat_265', price: 57600 },
-                    { label: 'биоклимат 240 модель сдвиж', value: 'bioclimat_240_sliding', price: 61600 }
+                    { label: 'Тентовая эко', value: 'tent_eco', price: 9400 },
+                    { label: 'Тентовая авто', value: 'tent_auto', price: 24400 },
+                    { label: 'Биоклимат 265 модель', value: 'bioclimat_265', price: 57600 },
+                    { label: 'Биоклимат 240 модель сдвиж', value: 'bioclimat_240_sliding', price: 61600 }
                 ]
             },
             {
@@ -3984,10 +3984,10 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 type: 'select',
                 priceType: 'fixed',
                 options: [
-                    { label: 'черный', value: 'black', price: 0 },
-                    { label: 'темно-серый', value: 'dark_gray', price: 0 },
-                    { label: 'коричневый', value: 'brown', price: 0 },
-                    { label: 'светло-серый', value: 'light_gray', price: 0 }
+                    { label: 'Черный', value: 'black', price: 0 },
+                    { label: 'Темно-серый', value: 'dark_gray', price: 0 },
+                    { label: 'Коричневый', value: 'brown', price: 0 },
+                    { label: 'Светло-серый', value: 'light_gray', price: 0 }
                 ]
             },
             {
@@ -3997,14 +3997,14 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 type: 'select',
                 priceType: 'fixed',
                 options: [
-                    { label: 'белый', value: 'white', price: 0 },
-                    { label: 'бежевый', value: 'beige', price: 0 },
-                    { label: 'белый микс с серым', value: 'white_gray_mix', price: 0 },
-                    { label: 'светло-серый', value: 'light_gray', price: 0 },
-                    { label: 'темно-серый', value: 'dark_gray', price: 0 },
-                    { label: 'коричневый', value: 'brown', price: 0 },
-                    { label: 'белый микс с черным', value: 'white_black_mix', price: 0 },
-                    { label: 'черный', value: 'black', price: 0 }
+                    { label: 'Белый', value: 'white', price: 0 },
+                    { label: 'Бежевый', value: 'beige', price: 0 },
+                    { label: 'Белый микс с серым', value: 'white_gray_mix', price: 0 },
+                    { label: 'Светло-серый', value: 'light_gray', price: 0 },
+                    { label: 'Темно-серый', value: 'dark_gray', price: 0 },
+                    { label: 'Коричневый', value: 'brown', price: 0 },
+                    { label: 'Белый микс с черным', value: 'white_black_mix', price: 0 },
+                    { label: 'Черный', value: 'black', price: 0 }
                 ]
             },
             // Дополнительные услуги
