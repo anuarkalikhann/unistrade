@@ -151,7 +151,10 @@ export const CalculatorForm = () => {
                                                                             {option.options?.map((opt) => (
                                                                                 <SelectItem key={opt.value} value={opt.value}>
                                                                                     {opt.label} {!option.hidePriceInLabel && (
-                                                                                        <>({opt.price > 0 ? `+${opt.price} сом` : opt.price === 0 ? 'Бесплатно' : `${opt.price} сом`})</>
+                                                                                        <>
+                                                                                            {opt.price > 0 ? ` (+${opt.price} сом)` :
+                                                                                                (opt.price === 0 && !['turnstile_model', 'barrier_model'].includes(option.id)) ? ' (учтено)' : ''}
+                                                                                        </>
                                                                                     )}
                                                                                 </SelectItem>
                                                                             ))}
@@ -225,7 +228,10 @@ export const CalculatorForm = () => {
                                                                             {option.options?.map((opt) => (
                                                                                 <SelectItem key={opt.value} value={opt.value}>
                                                                                     {opt.label} {!option.hidePriceInLabel && (
-                                                                                        <>({opt.price > 0 ? `+${opt.price} сом` : opt.price === 0 ? 'Бесплатно' : `${opt.price} сом`})</>
+                                                                                        <>
+                                                                                            {opt.price > 0 ? ` (+${opt.price} сом)` :
+                                                                                                (opt.price === 0 && !['turnstile_model', 'barrier_model'].includes(option.id)) ? ' (учтено)' : ''}
+                                                                                        </>
                                                                                     )}
                                                                                 </SelectItem>
                                                                             ))}
@@ -253,6 +259,43 @@ export const CalculatorForm = () => {
                     </CardContent>
                 </Card>
             )}
+
+            {/* Contact Section */}
+            <Card>
+                <CardContent className="pt-6 space-y-4">
+                    <h3 className="font-semibold text-slate-900 border-b pb-2 mb-4">Контактные данные</h3>
+                    <div className="space-y-2">
+                        <Label htmlFor="clientName">Имя и Фамилия клиента</Label>
+                        <Input
+                            id="clientName"
+                            type="text"
+                            placeholder="Иван Иванов"
+                            className="h-12 text-lg"
+                            {...register('clientName')}
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="clientAddress">Адрес клиента</Label>
+                        <Input
+                            id="clientAddress"
+                            type="text"
+                            placeholder="г. Бишкек, ул. ..."
+                            className="h-12 text-lg"
+                            {...register('clientAddress')}
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="phone">Номер телефона</Label>
+                        <Input
+                            id="phone"
+                            type="tel"
+                            placeholder="+996..."
+                            className="h-12 text-lg"
+                            {...register('phone')}
+                        />
+                    </div>
+                </CardContent>
+            </Card>
         </div>
     );
 };

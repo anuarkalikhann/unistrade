@@ -116,49 +116,36 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 ]
             },
             {
-                id: 'extra_post_80x80_2mm',
+                id: 'extra_post_type',
                 section: 'Стойки и Зашивка',
-                label: 'Доп стойки 80x80 (2мм) (м)',
-                type: 'number',
-                priceType: 'quantity',
-                pricePerUnit: 400,
-                unit: 'м'
+                label: 'Доп стойки (тип)',
+                type: 'select',
+                priceType: 'fixed',
+                hidePriceInLabel: true,
+                options: [
+                    { label: '80x80 (2мм)', value: '80x80_2mm', price: 0 },
+                    { label: '100x100 (2,5 мм)', value: '100x100_2_5mm', price: 0 },
+                    { label: '120x120 (3 мм)', value: '120x120_3mm', price: 0 },
+                    { label: '80x80 (3 мм)', value: '80x80_3mm', price: 0 },
+                    { label: '100x100 (3 мм)', value: '100x100_3mm', price: 0 }
+                ]
             },
             {
-                id: 'extra_post_100x100_2_5mm',
+                id: 'extra_post_quantity',
                 section: 'Стойки и Зашивка',
-                label: 'Доп стойки 100x100 (2,5 мм) (м)',
+                label: 'Доп стойки (м)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 600,
-                unit: 'м'
-            },
-            {
-                id: 'extra_post_120x120_3mm',
-                section: 'Стойки и Зашивка',
-                label: 'Доп стойки 120x120 (3 мм) (м)',
-                type: 'number',
-                priceType: 'quantity',
-                pricePerUnit: 700,
-                unit: 'м'
-            },
-            {
-                id: 'extra_post_80x80_3mm',
-                section: 'Стойки и Зашивка',
-                label: 'Доп стойки 80x80 (3 мм) (м)',
-                type: 'number',
-                priceType: 'quantity',
-                pricePerUnit: 450,
-                unit: 'м'
-            },
-            {
-                id: 'extra_post_100x100_3mm',
-                section: 'Стойки и Зашивка',
-                label: 'Доп стойки 100x100 (3 мм) (м)',
-                type: 'number',
-                priceType: 'quantity',
-                pricePerUnit: 500,
-                unit: 'м'
+                unit: 'м',
+                pricePerUnit: 0,
+                dependsOn: 'extra_post_type',
+                dependentPriceRules: {
+                    '80x80_2mm': 400,
+                    '100x100_2_5mm': 600,
+                    '120x120_3mm': 700,
+                    '80x80_3mm': 450,
+                    '100x100_3mm': 500
+                }
             },
             {
                 id: 'opening_direction',
@@ -359,7 +346,16 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
+            
             {
+                id: 'discount',
+                section: 'Дополнительные работы',
+                label: 'Скидка',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: -1,
+                unit: 'сом'
+            },{
                 id: 'note',
                 section: 'Дополнительные работы',
                 label: 'Примечание',
@@ -369,7 +365,19 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                     { label: 'Все стандартно', value: 'standard', price: 0 },
                     { label: 'Есть нюансы', value: 'nuances', price: 0 }
                 ]
-            }
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
+            },
         ],
     },
     'swing-gates': {
@@ -715,14 +723,35 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
+            
             {
+                id: 'discount',
+                section: 'Дополнительные работы',
+                label: 'Скидка',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: -1,
+                unit: 'сом'
+            },{
                 id: 'note',
                 section: 'Дополнительные работы',
                 label: 'Примечание',
                 type: 'input', // Changed to input/text as per Swing Gate request "type: text"
                 priceType: 'fixed',
                 priceValue: 0
-            }
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
+            },
         ],
     },
     'sectional-gates': {
@@ -1094,18 +1123,40 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
+            
             {
+                id: 'discount',
+                section: 'Монтаж и Работы',
+                label: 'Скидка',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: -1,
+                unit: 'сом'
+            },{
                 id: 'note',
                 section: 'Монтаж и Работы',
                 label: 'Примечание',
                 type: 'input',
                 priceType: 'fixed',
                 priceValue: 0
-            }
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
+            },
         ],
     },
     'wicket': {
         productId: 'wicket',
+        hideDimensions: true,
         dimensions: {
             baseWidth: 0,
             baseHeight: 0,
@@ -1413,18 +1464,40 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
+            
             {
+                id: 'discount',
+                section: 'Питание и Кабели',
+                label: 'Скидка',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: -1,
+                unit: 'сом'
+            },{
                 id: 'note',
                 section: 'Питание и Кабели',
                 label: 'Примечание',
                 type: 'input',
                 priceType: 'fixed',
                 priceValue: 0
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
             }
         ]
     },
     'barrier-anti-vandal': {
         productId: 'barrier-anti-vandal',
+        hideDimensions: true,
         dimensions: {
             baseWidth: 0,
             baseHeight: 0,
@@ -1722,6 +1795,18 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                     { label: 'Нет', value: 'no', price: 0 },
                     { label: 'Есть', value: 'yes', price: 0 }
                 ]
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
             }
         ]
     },
@@ -1954,13 +2039,34 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
+            
             {
+                id: 'discount',
+                section: 'Дополнительные работы',
+                label: 'Скидка',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: -1,
+                unit: 'сом'
+            },{
                 id: 'note',
                 section: 'Дополнительные работы',
                 label: 'Примечание',
                 type: 'input',
                 priceType: 'fixed',
                 priceValue: 0
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
             }
         ]
     },
@@ -2315,13 +2421,34 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
+            
             {
+                id: 'discount',
+                section: 'Строительные работы',
+                label: 'Скидка',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: -1,
+                unit: 'сом'
+            },{
                 id: 'note',
                 section: 'Строительные работы',
                 label: 'Примечание',
                 type: 'input',
                 priceType: 'fixed',
                 priceValue: 0
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
             }
         ]
     },
@@ -2552,13 +2679,34 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сумма'
             },
+            
             {
+                id: 'discount',
+                section: 'Дополнительные работы',
+                label: 'Скидка',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: -1,
+                unit: 'сом'
+            },{
                 id: 'note',
                 section: 'Дополнительные работы',
                 label: 'Примечание',
                 type: 'input',
                 priceType: 'fixed',
                 priceValue: 0
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
             }
         ]
     },
@@ -2756,13 +2904,34 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сумма'
             },
+            
             {
+                id: 'discount',
+                section: 'Дополнительные работы',
+                label: 'Скидка',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: -1,
+                unit: 'сом'
+            },{
                 id: 'note',
                 section: 'Дополнительные работы',
                 label: 'Примечание',
                 type: 'input',
                 priceType: 'fixed',
                 priceValue: 0
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
             }
         ]
     },
@@ -2998,13 +3167,34 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сумма'
             },
+            
             {
+                id: 'discount',
+                section: 'Дополнительные работы',
+                label: 'Скидка',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: -1,
+                unit: 'сом'
+            },{
                 id: 'note',
                 section: 'Дополнительные работы',
                 label: 'Примечание',
                 type: 'input',
                 priceType: 'fixed',
                 priceValue: 0
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
             }
         ]
     },
@@ -3172,13 +3362,34 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сумма'
             },
+            
             {
+                id: 'discount',
+                section: 'Монтажные работы и Кабель',
+                label: 'Скидка',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: -1,
+                unit: 'сом'
+            },{
                 id: 'note',
                 section: 'Монтажные работы и Кабель',
                 label: 'Примечание',
                 type: 'input',
                 priceType: 'fixed',
                 priceValue: 0
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
             }
         ]
     },
@@ -3212,9 +3423,8 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                     { label: 'Bloom window', value: 'BLOOM_WINDOW', price: 0 },
                     { label: 'Bloom window+', value: 'BLOOM_WINDOW_PLUS', price: 0 },
                     { label: 'Bloom vertical', value: 'BLOOM_VERTICAL', price: 0 },
-                    { label: 'Bloom dome', value: 'bloom_dome', price: 0 },
-                    { label: 'Bloom bascet', value: 'bloom_bascet', price: 0 },
-                    { label: 'Bloom zip', value: 'BLOOM_ZIP', price: 0 },
+                    { label: 'Bloom dome', value: 'BLOOM DOME', price: 0 },
+                    { label: 'Bloom bascet', value: 'BLOOM BASCET', price: 0 },
                     { label: 'Bloom roll', value: 'bloom_roll', price: 0 }
                 ],
                 hidePriceInLabel: true
@@ -3247,9 +3457,28 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 }
             },
             {
+                id: 'rays',
+                section: 'Модель и Размеры',
+                label: 'Количество лучей',
+                type: 'select',
+                priceType: 'fixed',
+                options: [
+                    { label: '3', value: '3', price: 0 },
+                    { label: '4', value: '4', price: 0 },
+                    { label: '5', value: '5', price: 0 },
+                    { label: '6', value: '6', price: 0 },
+                    { label: '7', value: '7', price: 0 }
+                ],
+                hidePriceInLabel: true,
+                visibleIf: {
+                    optionId: 'model',
+                    values: ['BLOOM BASCET', 'BLOOM DOME']
+                }
+            },
+            {
                 id: 'width',
                 section: 'Модель и Размеры',
-                label: 'Ширина (мм)',
+                label: 'Ширина (см)',
                 type: 'number',
                 priceType: 'fixed',
                 priceValue: 0
@@ -3257,7 +3486,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'projection',
                 section: 'Модель и Размеры',
-                label: 'Вылет (мм)',
+                label: 'Вылет (см)',
                 type: 'number',
                 priceType: 'fixed',
                 priceValue: 0
@@ -3394,7 +3623,16 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сум'
             },
-            // Параметры
+            
+            {
+                id: 'discount',
+                section: 'Работы',
+                label: 'Скидка',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: -1,
+                unit: 'сом'
+            },// Параметры
             {
                 id: 'frame_color',
                 section: 'Параметры',
@@ -3491,6 +3729,18 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'fixed',
                 priceValue: 0,
                 unit: 'штук'
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
             }
         ]
     },
@@ -3565,7 +3815,16 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
+            
             {
+                id: 'discount',
+                section: 'Дополнительно',
+                label: 'Скидка',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: -1,
+                unit: 'сом'
+            },{
                 id: 'unaccounted_description',
                 section: 'Дополнительно',
                 label: 'Описание неучтенки',
@@ -3580,6 +3839,18 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 type: 'input',
                 priceType: 'fixed',
                 priceValue: 0
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
             }
         ]
     },
@@ -3645,7 +3916,16 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
+            
             {
+                id: 'discount',
+                section: 'Работы',
+                label: 'Скидка',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: -1,
+                unit: 'сом'
+            },{
                 id: 'unaccounted_description',
                 section: 'Работы',
                 label: 'Описание неучтенки',
@@ -3662,6 +3942,18 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'fixed',
                 priceValue: 0,
                 unit: 'шт'
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
             }
         ]
     },
@@ -3701,6 +3993,18 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'fixed',
                 priceValue: 0,
                 unit: 'шт'
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
             }
         ]
     },
@@ -3785,7 +4089,16 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
-            // Параметры
+            
+            {
+                id: 'discount',
+                section: 'Оснащение и услуги',
+                label: 'Скидка',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: -1,
+                unit: 'сом'
+            },// Параметры
             {
                 id: 'lighting',
                 section: 'Параметры',
@@ -3837,6 +4150,18 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'fixed',
                 priceValue: 0,
                 unit: 'штук'
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
             }
         ]
     },
@@ -3926,18 +4251,40 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'quantity',
                 pricePerUnit: 1,
                 unit: 'сом'
+            },
+            
+            {
+                id: 'discount',
+                section: 'Дополнительные работы',
+                label: 'Скидка',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: -1,
+                unit: 'сом'
+            },{
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
             }
         ]
     },
     'bloom-zip': {
         productId: 'bloom-zip',
+        hideDimensions: true,
         dimensions: {
             baseWidth: 0,
             baseHeight: 0,
             basePrice: 0,
-            widthStep: 0,
+            widthStep: 1,
             widthPricePerStep: 0,
-            heightStep: 0,
+            heightStep: 1,
             heightPricePerStep: 0,
         },
         frames: [],
@@ -4045,7 +4392,16 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
+            
             {
+                id: 'discount',
+                section: 'Прочее',
+                label: 'Скидка',
+                type: 'number',
+                priceType: 'quantity',
+                pricePerUnit: -1,
+                unit: 'сом'
+            },{
                 id: 'unrecorded_description',
                 section: 'Прочее',
                 label: 'Описание неучтенки',
@@ -4069,6 +4425,18 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'fixed',
                 priceValue: 0,
                 unit: 'шт'
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
             }
         ]
     },
@@ -4129,6 +4497,18 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 type: 'input',
                 priceType: 'fixed',
                 priceValue: 0
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
             }
         ]
     },
@@ -4302,6 +4682,18 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 type: 'input',
                 priceType: 'fixed',
                 priceValue: 0
+            },
+            {
+                id: 'include_tax',
+                section: 'Налоги',
+                label: 'Включать НДС 12% и НСП 1%',
+                type: 'boolean',
+                priceType: 'fixed',
+                priceValue: 0,
+                options: [
+                    { label: 'Нет', value: 'no', price: 0 },
+                    { label: 'Да', value: 'yes', price: 0 }
+                ]
             }
         ]
     }
