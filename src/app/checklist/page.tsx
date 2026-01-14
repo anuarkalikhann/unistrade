@@ -120,7 +120,7 @@ export default function ChecklistPage() {
         };
 
         try {
-            const res = await fetch('https://ennan.app.n8n.cloud/webhook-test/aa173e01-197b-4a9b-9557-b04647eb9692', {
+            const res = await fetch('https://ennan.app.n8n.cloud/webhook/aa173e01-197b-4a9b-9557-b04647eb9692', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
