@@ -3,15 +3,60 @@ import { PricingRule } from '@/types';
 export const PRICING_RULES: Record<string, PricingRule> = {
     'sliding-gates': {
         productId: 'sliding-gates',
+        pricingStrategy: 'table',
         dimensions: {
             baseWidth: 4000,
             baseHeight: 2000,
-            basePrice: 90000,
-            widthStep: 500,
-            widthPricePerStep: 7500,
-            heightStep: 100,
-            heightPricePerStep: 7500,
+            basePrice: 0,
+            widthStep: 0,
+            widthPricePerStep: 0,
+            heightStep: 0,
+            heightPricePerStep: 0,
         },
+        priceTable: [
+            {
+                heightRange: "200-230",
+                widths: {
+                    "400-420": 161000,
+                    "421-460": 167000,
+                    "461-499": 172000,
+                    "500-549": 184000,
+                    "550-599": 195000,
+                    "600-649": 207000,
+                    "650-699": 219000,
+                    "700-749": 242000,
+                    "750-800": 300000
+                }
+            },
+            {
+                heightRange: "231-260",
+                widths: {
+                    "400-420": 167000,
+                    "421-460": 172000,
+                    "461-499": 178000,
+                    "500-549": 190000,
+                    "550-599": 201500,
+                    "600-649": 224000,
+                    "650-699": 242000,
+                    "700-749": 264000,
+                    "750-800": 330000
+                }
+            },
+            {
+                heightRange: "261-300",
+                widths: {
+                    "400-420": 178000,
+                    "421-460": 184000,
+                    "461-499": 190000,
+                    "500-549": 201000,
+                    "550-599": 213000,
+                    "600-649": 241000,
+                    "650-699": 265000,
+                    "700-749": 293000,
+                    "750-800": 350000
+                }
+            }
+        ],
         frames: [
             { label: '60x40 (2мм)', value: '60x40_2mm', priceType: 'multiplier', priceValue: 0 },
             { label: '60x60 (2мм)', value: '60x60_2mm', priceType: 'multiplier', priceValue: 0 }, // Assuming 0 based on user input, or maybe similar to base? User said 60x40 base.
@@ -133,18 +178,18 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'extra_post_quantity',
                 section: 'Стойки и Зашивка',
-                label: 'Доп стойки (м)',
+                label: 'Доп стойки (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                unit: 'м',
+                unit: 'мм',
                 pricePerUnit: 0,
                 dependsOn: 'extra_post_type',
                 dependentPriceRules: {
-                    '80x80_2mm': 400,
-                    '100x100_2_5mm': 600,
-                    '120x120_3mm': 700,
-                    '80x80_3mm': 450,
-                    '100x100_3mm': 500
+                    '80x80_2mm': 0.4,
+                    '100x100_2_5mm': 0.6,
+                    '120x120_3mm': 0.7,
+                    '80x80_3mm': 0.45,
+                    '100x100_3mm': 0.5
                 }
             },
             {
@@ -209,11 +254,11 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'gear_rack',
                 section: 'Автоматика и Электроника',
-                label: 'Доп зуб рейка (м)',
+                label: 'Доп зуб рейка (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 1000,
-                unit: 'м'
+                pricePerUnit: 1,
+                unit: 'мм'
             },
             {
                 id: 'lamp',
@@ -230,7 +275,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 type: 'select',
                 priceType: 'fixed',
                 options: [
-                    { label: 'Проводной', value: 'wired', price: 1000 },
+                    { label: 'Проводной', value: 'wired', price: 0 },
                     { label: 'Беспроводной', value: 'wireless', price: 1000 },
                     { label: 'Радар', value: 'radar', price: 14000 }
                 ]
@@ -304,29 +349,29 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'chasing_grouting',
                 section: 'Дополнительные работы',
-                label: 'Штробление + замазка (м)',
+                label: 'Штробление + замазка (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 500,
-                unit: 'м'
+                pricePerUnit: 0.5,
+                unit: 'мм'
             },
             {
                 id: 'lift_paving',
                 section: 'Дополнительные работы',
-                label: 'Поднять брусчатку "песок" (м)',
+                label: 'Поднять брусчатку "песок" (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 50,
-                unit: 'м'
+                pricePerUnit: 0.05,
+                unit: 'мм'
             },
             {
                 id: 'power_cable_wiring',
                 section: 'Дополнительные работы',
-                label: 'Доп подводка силового кабеля (м)',
+                label: 'Доп подводка силового кабеля (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 180,
-                unit: 'м'
+                pricePerUnit: 0.18,
+                unit: 'мм'
             },
             {
                 id: 'dismantling',
@@ -346,7 +391,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
-            
+
             {
                 id: 'discount',
                 section: 'Дополнительные работы',
@@ -355,7 +400,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'quantity',
                 pricePerUnit: -1,
                 unit: 'сом'
-            },{
+            }, {
                 id: 'note',
                 section: 'Дополнительные работы',
                 label: 'Примечание',
@@ -454,47 +499,47 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'extra_post_80x80_2mm',
                 section: 'Стойки и Открывание',
-                label: 'Доп стойки 80x80 (2мм) (м)',
+                label: 'Доп стойки 80x80 (2мм) (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 400,
-                unit: 'м'
+                pricePerUnit: 0.4,
+                unit: 'мм'
             },
             {
                 id: 'extra_post_100x100_2_5mm',
                 section: 'Стойки и Открывание',
-                label: 'Доп стойки 100x100 (2.5 мм) (м)',
+                label: 'Доп стойки 100x100 (2.5 мм) (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 600,
-                unit: 'м'
+                pricePerUnit: 0.6,
+                unit: 'мм'
             },
             {
                 id: 'extra_post_120x120_3mm',
                 section: 'Стойки и Открывание',
-                label: 'Доп стойки 120x120 (3 мм) (м)',
+                label: 'Доп стойки 120x120 (3 мм) (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 700,
-                unit: 'м'
+                pricePerUnit: 0.7,
+                unit: 'мм'
             },
             {
                 id: 'extra_post_80x80_3mm',
                 section: 'Стойки и Открывание',
-                label: 'Доп стойки 80x80 (3 мм) (м)',
+                label: 'Доп стойки 80x80 (3 мм) (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 450,
-                unit: 'м'
+                pricePerUnit: 0.45,
+                unit: 'мм'
             },
             {
                 id: 'extra_post_100x100_3mm',
                 section: 'Стойки и Открывание',
-                label: 'Доп стойки 100x100 (3 мм) (м)',
+                label: 'Доп стойки 100x100 (3 мм) (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 500,
-                unit: 'м'
+                pricePerUnit: 0.5,
+                unit: 'мм'
             },
             {
                 id: 'lintel',
@@ -540,7 +585,8 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 options: [
                     { label: 'Лист 1 мм', value: 'sheet_1mm', price: 0 },
                     { label: 'Сайдинг 0,45 мм (+10%)', value: 'siding', price: 0.10 },
-                    { label: 'Панель 40 мм (+30%)', value: 'panel_40mm', price: 0.30 }
+                    { label: 'Панель 40 мм (+30%)', value: 'panel_40mm', price: 0.30 },
+                    { label: 'Решетчатый (+10%)', value: 'grid', price: 0.10 }
                 ]
             },
             {
@@ -598,7 +644,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 type: 'select',
                 priceType: 'fixed',
                 options: [
-                    { label: 'Проводной', value: 'wired', price: 1000 },
+                    { label: 'Проводной', value: 'wired', price: 0 },
                     { label: 'Беспроводной', value: 'wireless', price: 1000 },
                     { label: 'Радар', value: 'radar', price: 14000 }
                 ]
@@ -650,38 +696,38 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'chasing_grouting',
                 section: 'Дополнительные работы',
-                label: 'Штробление + замазка (м)',
+                label: 'Штробление + замазка (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 500,
-                unit: 'м'
+                pricePerUnit: 0.5,
+                unit: 'мм'
             },
             {
                 id: 'lift_paving',
                 section: 'Дополнительные работы',
-                label: 'Поднять брусчатку "песок" (м)',
+                label: 'Поднять брусчатку "песок" (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 50,
-                unit: 'м'
+                pricePerUnit: 0.05,
+                unit: 'мм'
             },
             {
                 id: 'power_cable_wiring',
                 section: 'Дополнительные работы',
-                label: 'Доп подводка силового кабеля (м)',
+                label: 'Доп подводка силового кабеля (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 180,
-                unit: 'м'
+                pricePerUnit: 0.18,
+                unit: 'мм'
             },
             {
                 id: 'utp_cable',
                 section: 'Дополнительные работы',
-                label: 'UTP кабель (м)',
+                label: 'UTP кабель (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 80,
-                unit: 'м'
+                pricePerUnit: 0.08,
+                unit: 'мм'
             },
             {
                 id: 'dismantling',
@@ -723,7 +769,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
-            
+
             {
                 id: 'discount',
                 section: 'Дополнительные работы',
@@ -732,7 +778,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'quantity',
                 pricePerUnit: -1,
                 unit: 'сом'
-            },{
+            }, {
                 id: 'note',
                 section: 'Дополнительные работы',
                 label: 'Примечание',
@@ -852,47 +898,47 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'extra_posts_80x80_2mm',
                 section: 'Стойки и Панели',
-                label: 'Доп стойки 80x80 (2мм) (м)',
+                label: 'Доп стойки 80x80 (2мм) (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 400,
-                unit: 'м'
+                pricePerUnit: 0.4,
+                unit: 'мм'
             },
             {
                 id: 'extra_posts_100x100_2mm',
                 section: 'Стойки и Панели',
-                label: 'Доп стойки 100x100 (2мм) (м)',
+                label: 'Доп стойки 100x100 (2мм) (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 600,
-                unit: 'м'
+                pricePerUnit: 0.6,
+                unit: 'мм'
             },
             {
                 id: 'extra_posts_100x50_2mm',
                 section: 'Стойки и Панели',
-                label: 'Доп стойки 100x50 (2мм) (м)',
+                label: 'Доп стойки 100x50 (2мм) (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 400,
-                unit: 'м'
+                pricePerUnit: 0.4,
+                unit: 'мм'
             },
             {
                 id: 'false_panel_l_gofr',
                 section: 'Стойки и Панели',
-                label: 'Фальш панель L-гофр (м)',
+                label: 'Фальш панель L-гофр (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 4300,
-                unit: 'м'
+                pricePerUnit: 4.3,
+                unit: 'мм'
             },
             {
                 id: 'false_panel_microwave',
                 section: 'Стойки и Панели',
-                label: 'Фальш панель Микроволна (м)',
+                label: 'Фальш панель Микроволна (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 3800,
-                unit: 'м'
+                pricePerUnit: 3.8,
+                unit: 'мм'
             },
             {
                 id: 'wicket_integrated',
@@ -1050,38 +1096,38 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'chasing',
                 section: 'Монтаж и Работы',
-                label: 'Штробление + замазка (м)',
+                label: 'Штробление + замазка (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 500,
-                unit: 'м'
+                pricePerUnit: 0.5,
+                unit: 'мм'
             },
             {
                 id: 'pavers_lift',
                 section: 'Монтаж и Работы',
-                label: 'Поднять брусчатку "песок" (м)',
+                label: 'Поднять брусчатку "песок" (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 50,
-                unit: 'м'
+                pricePerUnit: 0.05,
+                unit: 'мм'
             },
             {
                 id: 'power_cable',
                 section: 'Монтаж и Работы',
-                label: 'Доп подводка силового кабеля (м)',
+                label: 'Доп подводка силового кабеля (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 180,
-                unit: 'м'
+                pricePerUnit: 0.18,
+                unit: 'мм'
             },
             {
                 id: 'utp_cable',
                 section: 'Монтаж и Работы',
-                label: 'UTP кабель (м)',
+                label: 'UTP кабель (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 80,
-                unit: 'м'
+                pricePerUnit: 0.08,
+                unit: 'мм'
             },
             {
                 id: 'dismantling',
@@ -1123,7 +1169,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
-            
+
             {
                 id: 'discount',
                 section: 'Монтаж и Работы',
@@ -1132,7 +1178,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'quantity',
                 pricePerUnit: -1,
                 unit: 'сом'
-            },{
+            }, {
                 id: 'note',
                 section: 'Монтаж и Работы',
                 label: 'Примечание',
@@ -1312,11 +1358,11 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'extra_strip',
                 section: 'Зашивка и Конструкция',
-                label: 'Доп нащельник (м)',
+                label: 'Доп нащельник (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 200,
-                unit: 'м'
+                pricePerUnit: 0.2,
+                unit: 'мм'
             },
             {
                 id: 'opening_direction',
@@ -1353,7 +1399,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'fixed',
                 options: [
                     { label: 'Стандартная нажимная', value: 'standard', price: 0 },
-                    { label: 'Готовая 30 см', value: 'ready_30cm', price: 1800 },
+                    { label: 'Готовая 300 мм', value: 'ready_30cm', price: 1800 },
                     { label: 'Индивидуально сваренная', value: 'custom_welded', price: 2500 }
                 ]
             },
@@ -1440,20 +1486,20 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'power_cable',
                 section: 'Питание и Кабели',
-                label: 'Доп подводка силового кабеля (м)',
+                label: 'Доп подводка силового кабеля (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 180,
-                unit: 'м'
+                pricePerUnit: 0.18,
+                unit: 'мм'
             },
             {
                 id: 'utp_cable',
                 section: 'Питание и Кабели',
-                label: 'UTP кабель (м)',
+                label: 'UTP кабель (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 80,
-                unit: 'м'
+                pricePerUnit: 0.08,
+                unit: 'мм'
             },
             {
                 id: 'unaccounted',
@@ -1464,7 +1510,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
-            
+
             {
                 id: 'discount',
                 section: 'Питание и Кабели',
@@ -1473,7 +1519,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'quantity',
                 pricePerUnit: -1,
                 unit: 'сом'
-            },{
+            }, {
                 id: 'note',
                 section: 'Питание и Кабели',
                 label: 'Примечание',
@@ -1517,11 +1563,11 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 type: 'select',
                 priceType: 'fixed',
                 options: [
-                    { label: 'S (до 4 метров)', value: 's', price: 85000 },
-                    { label: 'L (до 5 метров)', value: 'l', price: 95000 },
-                    { label: 'M (до 6 метров)', value: 'm', price: 115000 },
-                    { label: 'XL (до 7 метров)', value: 'xl', price: 125000 },
-                    { label: 'XXL (до 8 метров)', value: 'xxl', price: 145000 }
+                    { label: 'S (до 4000 мм)', value: 's', price: 85000 },
+                    { label: 'L (до 5000 мм)', value: 'l', price: 95000 },
+                    { label: 'M (до 6000 мм)', value: 'm', price: 115000 },
+                    { label: 'XL (до 7000 мм)', value: 'xl', price: 125000 },
+                    { label: 'XXL (до 8000 мм)', value: 'xxl', price: 145000 }
                 ]
             },
             {
@@ -1595,11 +1641,11 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'gear_rack',
                 section: 'Автоматика и Оснащение',
-                label: 'Доп зуб рейка (шт)',
+                label: 'Доп зуб рейка (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 1000,
-                unit: 'шт' // "1 шт = 1 метру" per note, keeping unit as 'шт' or 'м' logic implies quantity multiplier
+                pricePerUnit: 1,
+                unit: 'мм'
             },
             {
                 id: 'lamp',
@@ -1693,36 +1739,36 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'chasing_grouting',
                 section: 'Дополнительные работы',
-                label: 'Штробление + замазка (м)',
+                label: 'Штробление + замазка (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 500,
-                unit: 'м'
+                pricePerUnit: 0.5,
+                unit: 'мм'
             },
             {
                 id: 'lift_paving',
                 section: 'Дополнительные работы',
-                label: 'Поднять брусчатку "песок" (м)',
+                label: 'Поднять брусчатку "песок" (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 50,
-                unit: 'м'
+                pricePerUnit: 0.05,
+                unit: 'мм'
             },
             {
                 id: 'power_cable',
-                label: 'Доп подводка силового кабеля (м)',
+                label: 'Доп подводка силового кабеля (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 180,
-                unit: 'м'
+                pricePerUnit: 0.18,
+                unit: 'мм'
             },
             {
                 id: 'utp_cable',
-                label: 'UTP кабель (м)',
+                label: 'UTP кабель (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 80,
-                unit: 'м'
+                pricePerUnit: 0.08,
+                unit: 'мм'
             },
             {
                 id: 'demolition',
@@ -1858,14 +1904,14 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'boom_length',
                 section: 'Модель и Монтаж',
-                label: 'Длина стрелы (метров)',
+                label: 'Длина стрелы (мм)',
                 type: 'select',
                 priceType: 'fixed',
                 options: [
-                    { label: '3', value: '3', price: 0 },
-                    { label: '4', value: '4', price: 0 },
-                    { label: '5', value: '5', price: 0 },
-                    { label: '6', value: '6', price: 0 }
+                    { label: '3000', value: '3', price: 0 },
+                    { label: '4000', value: '4', price: 0 },
+                    { label: '5000', value: '5', price: 0 },
+                    { label: '6000', value: '6', price: 0 }
                 ]
             },
 
@@ -1988,38 +2034,38 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'chasing_grouting',
                 section: 'Дополнительные работы',
-                label: 'Штробление + замазка (м)',
+                label: 'Штробление + замазка (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 500,
-                unit: 'м'
+                pricePerUnit: 0.5,
+                unit: 'мм'
             },
             {
                 id: 'lift_paving',
                 section: 'Дополнительные работы',
-                label: 'Поднять брусчатку "песок" (м)',
+                label: 'Поднять брусчатку "песок" (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 50,
-                unit: 'м'
+                pricePerUnit: 0.05,
+                unit: 'мм'
             },
             {
                 id: 'power_cable_wiring',
                 section: 'Дополнительные работы',
-                label: 'Доп подводка силового кабеля (м)',
+                label: 'Доп подводка силового кабеля (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 180,
-                unit: 'м'
+                pricePerUnit: 0.18,
+                unit: 'мм'
             },
             {
                 id: 'utp_cable',
                 section: 'Дополнительные работы',
-                label: 'UTP кабель (м)',
+                label: 'UTP кабель (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 80,
-                unit: 'м'
+                pricePerUnit: 0.08,
+                unit: 'мм'
             },
             {
                 id: 'dismantling',
@@ -2039,7 +2085,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
-            
+
             {
                 id: 'discount',
                 section: 'Дополнительные работы',
@@ -2048,7 +2094,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'quantity',
                 pricePerUnit: -1,
                 unit: 'сом'
-            },{
+            }, {
                 id: 'note',
                 section: 'Дополнительные работы',
                 label: 'Примечание',
@@ -2173,18 +2219,18 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'additional_beam_meters',
                 section: 'Замена комплектующих',
-                label: 'Доп балка (м)',
+                label: 'Доп балка (мм)',
                 type: 'number',
                 priceType: 'quantity',
                 pricePerUnit: 0,
                 dependsOn: 'additional_beam_type',
                 dependentPriceRules: {
-                    'euro': 3000,
-                    'eco': 2000,
-                    'start': 800,
-                    'start_pro': 800
+                    'euro': 3,
+                    'eco': 2,
+                    'start': 0.8,
+                    'start_pro': 0.8
                 },
-                unit: 'м'
+                unit: 'мм'
             },
             {
                 id: 'counterweight',
@@ -2331,19 +2377,19 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'additional_posts_meters',
                 section: 'Строительные работы',
-                label: 'Доп стойки (м)',
+                label: 'Доп стойки (мм)',
                 type: 'number',
                 priceType: 'quantity',
                 pricePerUnit: 0,
                 dependsOn: 'additional_posts_size',
                 dependentPriceRules: {
-                    '80x80_2': 400,
-                    '100x100_25': 600,
-                    '120x120_3': 700,
-                    '80x80_3': 450,
-                    '100x100_3': 500
+                    '80x80_2': 0.4,
+                    '100x100_25': 0.6,
+                    '120x120_3': 0.7,
+                    '80x80_3': 0.45,
+                    '100x100_3': 0.5
                 },
-                unit: 'м'
+                unit: 'мм'
             },
             {
                 id: 'extra_concrete_works',
@@ -2357,38 +2403,38 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'chasing_grouting',
                 section: 'Строительные работы',
-                label: 'Штробление + замазка (м)',
+                label: 'Штробление + замазка (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 500,
-                unit: 'м'
+                pricePerUnit: 0.5,
+                unit: 'мм'
             },
             {
                 id: 'lift_paving',
                 section: 'Строительные работы',
-                label: 'Поднять брусчатку "песок" (м)',
+                label: 'Поднять брусчатку "песок" (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 50,
-                unit: 'м'
+                pricePerUnit: 0.05,
+                unit: 'мм'
             },
             {
                 id: 'power_cable_wiring',
                 section: 'Строительные работы',
-                label: 'Доп подводка силового кабеля (м)',
+                label: 'Доп подводка силового кабеля (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 180,
-                unit: 'м'
+                pricePerUnit: 0.18,
+                unit: 'мм'
             },
             {
                 id: 'utp_cable',
                 section: 'Строительные работы',
-                label: 'UTP кабель (м)',
+                label: 'UTP кабель (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 80,
-                unit: 'м'
+                pricePerUnit: 0.08,
+                unit: 'мм'
             },
             {
                 id: 'stabilizer',
@@ -2421,7 +2467,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
-            
+
             {
                 id: 'discount',
                 section: 'Строительные работы',
@@ -2430,7 +2476,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'quantity',
                 pricePerUnit: -1,
                 unit: 'сом'
-            },{
+            }, {
                 id: 'note',
                 section: 'Строительные работы',
                 label: 'Примечание',
@@ -2494,12 +2540,11 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'gear_rack',
                 section: 'Привод и Монтаж',
-                label: 'Доп зуб рейка (шт)',
+                label: 'Доп зуб рейка (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 1000,
-                unit: 'штук',
-                // note: '1 шт = 1 метру' - assuming UI handles this or it's implicitly known
+                pricePerUnit: 1,
+                unit: 'мм'
             },
 
             // Электроника и Управление
@@ -2580,19 +2625,19 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'post_meters',
                 section: 'Дополнительные работы',
-                label: 'Стойки (м)',
+                label: 'Стойки (мм)',
                 type: 'number',
                 priceType: 'quantity',
                 pricePerUnit: 0,
                 dependsOn: 'post_size',
                 dependentPriceRules: {
-                    '80x80_2': 400,
-                    '100x100_2': 600,
-                    '120x120_3': 700,
-                    '80x80_3': 450,
-                    '100x100_3': 500
+                    '80x80_2': 0.4,
+                    '100x100_2': 0.6,
+                    '120x120_3': 0.7,
+                    '80x80_3': 0.45,
+                    '100x100_3': 0.5
                 },
-                unit: 'м'
+                unit: 'мм'
             },
             {
                 id: 'extra_concrete_works',
@@ -2606,38 +2651,38 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'chasing_grouting',
                 section: 'Дополнительные работы',
-                label: 'Штробление + замазка (м)',
+                label: 'Штробление + замазка (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 500,
-                unit: 'кол- метров'
+                pricePerUnit: 0.5,
+                unit: 'мм'
             },
             {
                 id: 'lift_paving',
                 section: 'Дополнительные работы',
-                label: 'Поднять брусчатку "песок" (м)',
+                label: 'Поднять брусчатку "песок" (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 50,
-                unit: 'кол- метров'
+                pricePerUnit: 0.05,
+                unit: 'мм'
             },
             {
                 id: 'power_cable_wiring',
                 section: 'Дополнительные работы',
-                label: 'Доп подводка силового кабеля (м)',
+                label: 'Доп подводка силового кабеля (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 180,
-                unit: 'кол- метров'
+                pricePerUnit: 0.18,
+                unit: 'мм'
             },
             {
                 id: 'utp_cable',
                 section: 'Дополнительные работы',
-                label: 'UTP кабель (м)',
+                label: 'UTP кабель (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 80,
-                unit: 'кол- метров'
+                pricePerUnit: 0.08,
+                unit: 'мм'
             },
             {
                 id: 'dismantling',
@@ -2679,7 +2724,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сумма'
             },
-            
+
             {
                 id: 'discount',
                 section: 'Дополнительные работы',
@@ -2688,7 +2733,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'quantity',
                 pricePerUnit: -1,
                 unit: 'сом'
-            },{
+            }, {
                 id: 'note',
                 section: 'Дополнительные работы',
                 label: 'Примечание',
@@ -2853,38 +2898,38 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'chasing_grouting',
                 section: 'Дополнительные работы',
-                label: 'Штробление + замазка (м)',
+                label: 'Штробление + замазка (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 500,
-                unit: 'м'
+                pricePerUnit: 0.5,
+                unit: 'мм'
             },
             {
                 id: 'lift_paving',
                 section: 'Дополнительные работы',
-                label: 'Поднять брусчатку "песок" (м)',
+                label: 'Поднять брусчатку "песок" (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 50,
-                unit: 'м'
+                pricePerUnit: 0.05,
+                unit: 'мм'
             },
             {
                 id: 'power_cable_wiring',
                 section: 'Дополнительные работы',
-                label: 'Доп подводка силового кабеля (м)',
+                label: 'Доп подводка силового кабеля (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 180,
-                unit: 'м'
+                pricePerUnit: 0.18,
+                unit: 'мм'
             },
             {
                 id: 'utp_cable',
                 section: 'Дополнительные работы',
-                label: 'UTP кабель (м)',
+                label: 'UTP кабель (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 80,
-                unit: 'м'
+                pricePerUnit: 0.08,
+                unit: 'мм'
             },
             {
                 id: 'dismantling',
@@ -2904,7 +2949,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сумма'
             },
-            
+
             {
                 id: 'discount',
                 section: 'Дополнительные работы',
@@ -2913,7 +2958,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'quantity',
                 pricePerUnit: -1,
                 unit: 'сом'
-            },{
+            }, {
                 id: 'note',
                 section: 'Дополнительные работы',
                 label: 'Примечание',
@@ -3004,17 +3049,17 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'panel_meters_count',
                 section: 'Ремонтные работы',
-                label: 'Замена панели (м)',
+                label: 'Замена панели (мм)',
                 type: 'number',
                 priceType: 'quantity',
                 pricePerUnit: 0,
                 dependsOn: 'panel_type',
                 dependentPriceRules: {
-                    'l_gofr': 4300,
-                    'microwave': 3800,
+                    'l_gofr': 4.3,
+                    'microwave': 3.8,
                     'none': 0
                 },
-                unit: 'м'
+                unit: 'мм'
             },
             {
                 id: 'color',
@@ -3116,38 +3161,38 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'chasing_grouting',
                 section: 'Дополнительные работы',
-                label: 'Штробление + замазка (м)',
+                label: 'Штробление + замазка (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 500,
-                unit: 'м'
+                pricePerUnit: 0.5,
+                unit: 'мм'
             },
             {
                 id: 'lift_paving',
                 section: 'Дополнительные работы',
-                label: 'Поднять брусчатку "песок" (м)',
+                label: 'Поднять брусчатку "песок" (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 50,
-                unit: 'м'
+                pricePerUnit: 0.05,
+                unit: 'мм'
             },
             {
                 id: 'power_cable_wiring',
                 section: 'Дополнительные работы',
-                label: 'Доп подводка силового кабеля (м)',
+                label: 'Доп подводка силового кабеля (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 180,
-                unit: 'м'
+                pricePerUnit: 0.18,
+                unit: 'мм'
             },
             {
                 id: 'utp_cable',
                 section: 'Дополнительные работы',
-                label: 'UTP кабель (м)',
+                label: 'UTP кабель (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 80,
-                unit: 'м'
+                pricePerUnit: 0.08,
+                unit: 'мм'
             },
             {
                 id: 'dismantling',
@@ -3167,7 +3212,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сумма'
             },
-            
+
             {
                 id: 'discount',
                 section: 'Дополнительные работы',
@@ -3176,7 +3221,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'quantity',
                 pricePerUnit: -1,
                 unit: 'сом'
-            },{
+            }, {
                 id: 'note',
                 section: 'Дополнительные работы',
                 label: 'Примечание',
@@ -3318,29 +3363,29 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'chasing_grouting',
                 section: 'Монтажные работы и Кабель',
-                label: 'Штробление + замазка (м)',
+                label: 'Штробление + замазка (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 500,
-                unit: 'кол- метров'
+                pricePerUnit: 0.5,
+                unit: 'мм'
             },
             {
                 id: 'power_cable_wiring',
                 section: 'Монтажные работы и Кабель',
-                label: 'Доп подводка силового кабеля (м)',
+                label: 'Доп подводка силового кабеля (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 180,
-                unit: 'кол- метров'
+                pricePerUnit: 0.18,
+                unit: 'мм'
             },
             {
                 id: 'utp_cable',
                 section: 'Монтажные работы и Кабель',
-                label: 'UTP кабель (м)',
+                label: 'UTP кабель (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 80,
-                unit: 'кол- метров'
+                pricePerUnit: 0.08,
+                unit: 'мм'
             },
             {
                 id: 'stabilizer',
@@ -3362,7 +3407,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сумма'
             },
-            
+
             {
                 id: 'discount',
                 section: 'Монтажные работы и Кабель',
@@ -3371,7 +3416,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'quantity',
                 pricePerUnit: -1,
                 unit: 'сом'
-            },{
+            }, {
                 id: 'note',
                 section: 'Монтажные работы и Кабель',
                 label: 'Примечание',
@@ -3478,18 +3523,20 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'width',
                 section: 'Модель и Размеры',
-                label: 'Ширина (см)',
+                label: 'Ширина (мм)',
                 type: 'number',
                 priceType: 'fixed',
-                priceValue: 0
+                priceValue: 0,
+                unit: 'мм'
             },
             {
                 id: 'projection',
                 section: 'Модель и Размеры',
-                label: 'Вылет (см)',
+                label: 'Вылет (мм)',
                 type: 'number',
                 priceType: 'fixed',
-                priceValue: 0
+                priceValue: 0,
+                unit: 'мм'
             },
             // Оснащение
             {
@@ -3569,9 +3616,9 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 type: 'select',
                 priceType: 'fixed',
                 options: [
-                    { label: 'До 2.5 метров', value: 'up_to_2_5', price: 3000 },
-                    { label: 'До 4.5 метра', value: 'up_to_4_5', price: 6000 },
-                    { label: 'До 6 метров', value: 'up_to_6', price: 11000 }
+                    { label: 'До 2500 мм', value: 'up_to_2_5', price: 3000 },
+                    { label: 'До 4500 мм', value: 'up_to_4_5', price: 6000 },
+                    { label: 'До 6000 мм', value: 'up_to_6', price: 11000 }
                 ]
             },
             {
@@ -3581,10 +3628,10 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 type: 'select',
                 priceType: 'fixed',
                 options: [
-                    { label: 'До 3.5 метра', value: 'up_to_3_5', price: 0 },
-                    { label: 'До 4.5 метров', value: 'up_to_4_5', price: 3500 },
-                    { label: 'До 6 метров', value: 'up_to_6', price: 6500 },
-                    { label: 'Выше 6 метров', value: 'above_6', price: 15000 }
+                    { label: 'До 3500 мм', value: 'up_to_3_5', price: 0 },
+                    { label: 'До 4500 мм', value: 'up_to_4_5', price: 3500 },
+                    { label: 'До 6000 мм', value: 'up_to_6', price: 6500 },
+                    { label: 'Выше 6000 мм', value: 'above_6', price: 15000 }
                 ]
             },
             {
@@ -3599,20 +3646,20 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'power_cable',
                 section: 'Работы',
-                label: 'Подводка силового кабеля (м)',
+                label: 'Подводка силового кабеля (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 180,
-                unit: 'метр'
+                pricePerUnit: 0.18,
+                unit: 'мм'
             },
             {
                 id: 'wall_channeling',
                 section: 'Работы',
-                label: 'Штробление + замазка (м)',
+                label: 'Штробление + замазка (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 500,
-                unit: 'метр'
+                pricePerUnit: 0.5,
+                unit: 'мм'
             },
             {
                 id: 'unaccounted_expenses',
@@ -3623,7 +3670,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сум'
             },
-            
+
             {
                 id: 'discount',
                 section: 'Работы',
@@ -3815,7 +3862,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
-            
+
             {
                 id: 'discount',
                 section: 'Дополнительно',
@@ -3824,7 +3871,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'quantity',
                 pricePerUnit: -1,
                 unit: 'сом'
-            },{
+            }, {
                 id: 'unaccounted_description',
                 section: 'Дополнительно',
                 label: 'Описание неучтенки',
@@ -3902,9 +3949,9 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'fixed',
                 options: [
                     { label: 'Не требуется', value: 'none', price: 0 },
-                    { label: 'До 2.5 метров', value: 'max_2.5', price: 3000 },
-                    { label: 'До 4.5 метров', value: 'max_4.5', price: 6000 },
-                    { label: 'До 6.0 метров', value: 'max_6.0', price: 11000 }
+                    { label: 'До 2500 мм', value: 'max_2.5', price: 3000 },
+                    { label: 'До 4500 мм', value: 'max_4.5', price: 6000 },
+                    { label: 'До 6000 мм', value: 'max_6.0', price: 11000 }
                 ]
             },
             {
@@ -3916,7 +3963,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
-            
+
             {
                 id: 'discount',
                 section: 'Работы',
@@ -3925,7 +3972,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'quantity',
                 pricePerUnit: -1,
                 unit: 'сом'
-            },{
+            }, {
                 id: 'unaccounted_description',
                 section: 'Работы',
                 label: 'Описание неучтенки',
@@ -4065,20 +4112,20 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'cable_meters',
                 section: 'Оснащение и услуги',
-                label: 'Подводка силового кабеля (м)',
+                label: 'Подводка силового кабеля (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 180,
-                unit: 'м'
+                pricePerUnit: 0.18,
+                unit: 'мм'
             },
             {
                 id: 'chipping_meters',
                 section: 'Оснащение и услуги',
-                label: 'Штробление + замазка (м)',
+                label: 'Штробление + замазка (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 500,
-                unit: 'м'
+                pricePerUnit: 0.5,
+                unit: 'мм'
             },
             {
                 id: 'unaccounted_sum',
@@ -4089,7 +4136,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
-            
+
             {
                 id: 'discount',
                 section: 'Оснащение и услуги',
@@ -4228,20 +4275,20 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'power_cable',
                 section: 'Дополнительные работы',
-                label: 'Подводка силового кабеля (м)',
+                label: 'Подводка силового кабеля (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 180,
-                unit: 'м'
+                pricePerUnit: 0.18,
+                unit: 'мм'
             },
             {
                 id: 'wall_chasing',
                 section: 'Дополнительные работы',
-                label: 'Штробление + замазка (м)',
+                label: 'Штробление + замазка (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 500,
-                unit: 'м'
+                pricePerUnit: 0.5,
+                unit: 'мм'
             },
             {
                 id: 'unaccounted_sum',
@@ -4252,7 +4299,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
-            
+
             {
                 id: 'discount',
                 section: 'Дополнительные работы',
@@ -4261,7 +4308,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'quantity',
                 pricePerUnit: -1,
                 unit: 'сом'
-            },{
+            }, {
                 id: 'include_tax',
                 section: 'Налоги',
                 label: 'Включать НДС 12% и НСП 1%',
@@ -4367,20 +4414,20 @@ export const PRICING_RULES: Record<string, PricingRule> = {
             {
                 id: 'power_cable',
                 section: 'Дополнительные услуги',
-                label: 'Подводка силового кабеля (м)',
+                label: 'Подводка силового кабеля (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 180,
-                unit: 'метр'
+                pricePerUnit: 0.18,
+                unit: 'мм'
             },
             {
                 id: 'wall_chasing',
                 section: 'Дополнительные услуги',
-                label: 'Штробление + замазка (м)',
+                label: 'Штробление + замазка (мм)',
                 type: 'number',
                 priceType: 'quantity',
-                pricePerUnit: 500,
-                unit: 'метр'
+                pricePerUnit: 0.5,
+                unit: 'мм'
             },
             // Прочее
             {
@@ -4392,7 +4439,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 pricePerUnit: 1,
                 unit: 'сом'
             },
-            
+
             {
                 id: 'discount',
                 section: 'Прочее',
@@ -4401,7 +4448,7 @@ export const PRICING_RULES: Record<string, PricingRule> = {
                 priceType: 'quantity',
                 pricePerUnit: -1,
                 unit: 'сом'
-            },{
+            }, {
                 id: 'unrecorded_description',
                 section: 'Прочее',
                 label: 'Описание неучтенки',

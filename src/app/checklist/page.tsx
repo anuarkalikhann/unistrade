@@ -37,11 +37,7 @@ export default function ChecklistPage() {
         if (formData.phone) formattedInputs.push(`Номер телефона: ${formData.phone}`);
 
         if (rule) {
-            // Dimensions
-            if (rule.dimensions && !rule.hideDimensions) {
-                if (formData.width) formattedInputs.push(`Ширина: ${formData.width} мм`);
-                if (formData.height) formattedInputs.push(`Высота: ${formData.height} мм`);
-            }
+            /* Dimensions are now included in the product name/summary line */
 
             // Frame
             if (rule.frames && formData.frame) {
@@ -59,6 +55,9 @@ export default function ChecklistPage() {
                     const parentVal = formData[opt.visibleIf.optionId];
                     if (!opt.visibleIf.values.includes(parentVal)) return;
                 }
+
+                // Exclude structural options already included in the title
+                if (['width', 'height', 'projection', 'quantity'].includes(opt.id)) return;
 
                 let displayVal = val;
                 let optionPrice = 0;
@@ -99,15 +98,17 @@ export default function ChecklistPage() {
             });
         }
 
+        const productNameWithDims = `${currentProduct.name}${formData.width || formData.height ? ` (${formData.width || 0}x${formData.height || 0})` : ''}`;
+
         const payload = {
-            product: currentProduct.name,
+            product: productNameWithDims,
             totalPrice,
             inputs: formData,
             checklist: checklistData,
             formatted_inputs: formattedInputs.join('\n'),
             formatted_checklist: formattedChecklist.join('\n'),
             full_summary: [
-                `Товар: ${currentProduct.name}`,
+                `Товар: ${productNameWithDims}`,
                 `Итоговая цена: ${totalPrice} сом`,
                 '\n--- Параметры заказа ---',
                 ...formattedInputs,

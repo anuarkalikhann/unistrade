@@ -13,6 +13,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { X } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -82,18 +83,33 @@ export const CalculatorForm = () => {
                                 name="frame"
                                 control={control}
                                 render={({ field }) => (
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <SelectTrigger className="h-12">
-                                            <SelectValue placeholder="Выберите каркас" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {rule.frames?.map((frame) => (
-                                                <SelectItem key={frame.value} value={frame.value}>
-                                                    {frame.label}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
+                                    <div className="relative">
+                                        <Select onValueChange={field.onChange} value={field.value || ""}>
+                                            <SelectTrigger className="h-12 pr-10">
+                                                <SelectValue placeholder="Выберите каркас" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {rule.frames?.map((frame) => (
+                                                    <SelectItem key={frame.value} value={frame.value}>
+                                                        {frame.label}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                        {field.value && (
+                                            <button
+                                                type="button"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    field.onChange("");
+                                                }}
+                                                className="absolute right-9 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 transition-colors z-20"
+                                            >
+                                                <X size={16} />
+                                            </button>
+                                        )}
+                                    </div>
                                 )}
                             />
                         </div>
@@ -143,23 +159,38 @@ export const CalculatorForm = () => {
                                                                 name={option.id}
                                                                 control={control}
                                                                 render={({ field }) => (
-                                                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                                        <SelectTrigger className="h-12">
-                                                                            <SelectValue placeholder="Выберите..." />
-                                                                        </SelectTrigger>
-                                                                        <SelectContent>
-                                                                            {option.options?.map((opt) => (
-                                                                                <SelectItem key={opt.value} value={opt.value}>
-                                                                                    {opt.label} {!option.hidePriceInLabel && (
-                                                                                        <>
-                                                                                            {opt.price > 0 ? ` (+${opt.price} сом)` :
-                                                                                                (opt.price === 0 && !['turnstile_model', 'barrier_model'].includes(option.id)) ? ' (учтено)' : ''}
-                                                                                        </>
-                                                                                    )}
-                                                                                </SelectItem>
-                                                                            ))}
-                                                                        </SelectContent>
-                                                                    </Select>
+                                                                    <div className="relative">
+                                                                        <Select onValueChange={field.onChange} value={field.value || ""}>
+                                                                            <SelectTrigger className="h-12 pr-10">
+                                                                                <SelectValue placeholder="Выберите..." />
+                                                                            </SelectTrigger>
+                                                                            <SelectContent>
+                                                                                {option.options?.map((opt) => (
+                                                                                    <SelectItem key={opt.value} value={opt.value}>
+                                                                                        {opt.label} {!option.hidePriceInLabel && (
+                                                                                            <>
+                                                                                                {opt.price > 0 ? ` (+${opt.price} сом)` :
+                                                                                                    (opt.price === 0 && !['turnstile_model', 'barrier_model'].includes(option.id)) ? ' (учтено)' : ''}
+                                                                                            </>
+                                                                                        )}
+                                                                                    </SelectItem>
+                                                                                ))}
+                                                                            </SelectContent>
+                                                                        </Select>
+                                                                        {field.value && (
+                                                                            <button
+                                                                                type="button"
+                                                                                onClick={(e) => {
+                                                                                    e.preventDefault();
+                                                                                    e.stopPropagation();
+                                                                                    field.onChange("");
+                                                                                }}
+                                                                                className="absolute right-9 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 transition-colors z-20"
+                                                                            >
+                                                                                <X size={16} />
+                                                                            </button>
+                                                                        )}
+                                                                    </div>
                                                                 )}
                                                             />
                                                         )}
@@ -189,15 +220,30 @@ export const CalculatorForm = () => {
                                                                 name={option.id}
                                                                 control={control}
                                                                 render={({ field }) => (
-                                                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                                        <SelectTrigger className="h-12">
-                                                                            <SelectValue placeholder="Выберите..." />
-                                                                        </SelectTrigger>
-                                                                        <SelectContent>
-                                                                            <SelectItem value="no">Нет</SelectItem>
-                                                                            <SelectItem value="yes">Да</SelectItem>
-                                                                        </SelectContent>
-                                                                    </Select>
+                                                                    <div className="relative">
+                                                                        <Select onValueChange={field.onChange} value={field.value || ""}>
+                                                                            <SelectTrigger className="h-12 pr-10">
+                                                                                <SelectValue placeholder="Выберите..." />
+                                                                            </SelectTrigger>
+                                                                            <SelectContent>
+                                                                                <SelectItem value="no">Нет</SelectItem>
+                                                                                <SelectItem value="yes">Да</SelectItem>
+                                                                            </SelectContent>
+                                                                        </Select>
+                                                                        {field.value && (
+                                                                            <button
+                                                                                type="button"
+                                                                                onClick={(e) => {
+                                                                                    e.preventDefault();
+                                                                                    e.stopPropagation();
+                                                                                    field.onChange("");
+                                                                                }}
+                                                                                className="absolute right-9 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 transition-colors z-20"
+                                                                            >
+                                                                                <X size={16} />
+                                                                            </button>
+                                                                        )}
+                                                                    </div>
                                                                 )}
                                                             />
                                                         )}
@@ -220,23 +266,38 @@ export const CalculatorForm = () => {
                                                                 name={option.id}
                                                                 control={control}
                                                                 render={({ field }) => (
-                                                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                                        <SelectTrigger className="h-12">
-                                                                            <SelectValue placeholder="Выберите..." />
-                                                                        </SelectTrigger>
-                                                                        <SelectContent>
-                                                                            {option.options?.map((opt) => (
-                                                                                <SelectItem key={opt.value} value={opt.value}>
-                                                                                    {opt.label} {!option.hidePriceInLabel && (
-                                                                                        <>
-                                                                                            {opt.price > 0 ? ` (+${opt.price} сом)` :
-                                                                                                (opt.price === 0 && !['turnstile_model', 'barrier_model'].includes(option.id)) ? ' (учтено)' : ''}
-                                                                                        </>
-                                                                                    )}
-                                                                                </SelectItem>
-                                                                            ))}
-                                                                        </SelectContent>
-                                                                    </Select>
+                                                                    <div className="relative">
+                                                                        <Select onValueChange={field.onChange} value={field.value || ""}>
+                                                                            <SelectTrigger className="h-12 pr-10">
+                                                                                <SelectValue placeholder="Выберите..." />
+                                                                            </SelectTrigger>
+                                                                            <SelectContent>
+                                                                                {option.options?.map((opt) => (
+                                                                                    <SelectItem key={opt.value} value={opt.value}>
+                                                                                        {opt.label} {!option.hidePriceInLabel && (
+                                                                                            <>
+                                                                                                {opt.price > 0 ? ` (+${opt.price} сом)` :
+                                                                                                    (opt.price === 0 && !['turnstile_model', 'barrier_model'].includes(option.id)) ? ' (учтено)' : ''}
+                                                                                            </>
+                                                                                        )}
+                                                                                    </SelectItem>
+                                                                                ))}
+                                                                            </SelectContent>
+                                                                        </Select>
+                                                                        {field.value && (
+                                                                            <button
+                                                                                type="button"
+                                                                                onClick={(e) => {
+                                                                                    e.preventDefault();
+                                                                                    e.stopPropagation();
+                                                                                    field.onChange("");
+                                                                                }}
+                                                                                className="absolute right-9 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 transition-colors z-20"
+                                                                            >
+                                                                                <X size={16} />
+                                                                            </button>
+                                                                        )}
+                                                                    </div>
                                                                 )}
                                                             />
                                                         )}

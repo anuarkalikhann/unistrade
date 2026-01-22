@@ -66,11 +66,15 @@ export interface AdditionalOption {
 export interface PricingRule {
     productId: ProductId;
     hideDimensions?: boolean; // New flag to hide width/height inputs
-    pricingStrategy?: 'standard' | 'area';
+    pricingStrategy?: 'standard' | 'area' | 'table';
     basePricePerSqm?: number;
     areaPriceRules?: { maxArea: number; price: number }[];
     dimensions?: DimensionsConfig;
     frames?: FrameOption[];
+    priceTable?: {
+        heightRange: string;
+        widths: Record<string, number>;
+    }[];
     options?: AdditionalOption[];
 }
 

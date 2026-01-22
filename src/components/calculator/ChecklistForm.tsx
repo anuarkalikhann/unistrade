@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input'; // For comments if needed
 import { Card, CardContent } from '@/components/ui/card';
+import { X } from 'lucide-react';
 
 export const ChecklistForm = () => {
     const currentProduct = useAppStore((state) => state.currentProduct);
@@ -54,16 +55,33 @@ export const ChecklistForm = () => {
                                     control={control}
                                     rules={{ required: 'Required' }}
                                     render={({ field }) => (
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                            <SelectTrigger className="h-12">
-                                                <SelectValue placeholder="Выберите..." />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {q.options?.map(opt => (
-                                                    <SelectItem key={opt} value={opt}>{opt}</SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
+                                        <div className="relative">
+                                            <Select onValueChange={field.onChange} value={field.value || ""}>
+                                                <SelectTrigger className="h-12 pr-10">
+                                                    <SelectValue placeholder="Выберите..." />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {q.options?.map(opt => (
+                                                        <SelectItem key={opt} value={opt}>
+                                                            {opt}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                            {field.value && (
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                        field.onChange("");
+                                                    }}
+                                                    className="absolute right-9 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 transition-colors z-20"
+                                                >
+                                                    <X size={16} />
+                                                </button>
+                                            )}
+                                        </div>
                                     )}
                                 />
                             )}

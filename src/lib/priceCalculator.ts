@@ -106,8 +106,8 @@ export const calculatePrice = (currentProduct: Product | null, formData: Record<
             const fabric = formData.fabric;
             const angle = formData.angle ? parseInt(formData.angle) : undefined;
             const rays = formData.rays ? parseInt(formData.rays) : undefined;
-            const w_m = width / 100;
-            const p_m = projection / 100;
+            const w_m = width / 1000;
+            const p_m = projection / 1000;
 
             if (w_m > 0 && p_m > 0) {
                 structureDescription += ` (${w_m}м x ${p_m}м)`;
@@ -215,7 +215,30 @@ export const calculatePrice = (currentProduct: Product | null, formData: Record<
         }
 
         unitStructurePrice = baseUnitCost * (1 + multipliers);
-        structureDescription += ` (${areaM2.toFixed(2)} м²)`;
+        structureDescription += ` (${width}x${height}) (${areaM2.toFixed(2)} м²)`;
+    } else if (strategy === 'table' && rule.priceTable) {
+        const widthCm = width / 10;
+        const heightCm = height / 10;
+
+        // Find matching height range
+        const matchingHeightEntry = rule.priceTable.find(entry => {
+            const [min, max] = entry.heightRange.split('-').map(Number);
+            return heightCm >= min && heightCm <= max;
+        });
+
+        if (matchingHeightEntry) {
+            // Find matching width range
+            const widthKey = Object.keys(matchingHeightEntry.widths).find(range => {
+                const [min, max] = range.split('-').map(Number);
+                return widthCm >= min && widthCm <= max;
+            });
+
+            if (widthKey) {
+                unitStructurePrice = matchingHeightEntry.widths[widthKey];
+            }
+        }
+
+        structureDescription += ` (${width}x${height})`;
     }
 
     // --- Special Product Overrides for 'Structure' ---
@@ -335,8 +358,8 @@ export const calculatePrice = (currentProduct: Product | null, formData: Record<
             if (currentProduct.id === 'turnstile' && opt.id === 'turnstile_model') return;
             if ((currentProduct.id === 'barrier' || currentProduct.id === 'barrier-anti-vandal') && opt.id === 'barrier_model') return;
 
-            // Exclude structural options for bloom-zip to prevent duplicate/empty line items
-            if (currentProduct.id === 'bloom-zip' && ['width', 'height', 'quantity'].includes(opt.id)) return;
+            // Exclude structural options (width, height, projection, quantity) as they are usually part of the main description
+            if (['width', 'height', 'projection', 'quantity'].includes(opt.id)) return;
 
             // Exclude 'selected_size' if used
             if ((currentProduct.id === 'umbrellas-production' || currentProduct.id === 'ready-made-bioclimatic-pergolas') && opt.id === 'selected_size') return;
