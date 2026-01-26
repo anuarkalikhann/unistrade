@@ -13,7 +13,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { X } from 'lucide-react';
+import { X, Plus, Trash2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -22,10 +23,14 @@ export const CalculatorForm = () => {
     const formData = useAppStore((state) => state.formData);
     const updateFormData = useAppStore((state) => state.updateFormData);
 
-    const { control, watch, register } = useForm({
+    const { control, watch, register, setValue } = useForm({
         defaultValues: formData,
         mode: 'onChange',
     });
+
+    const isGateProduct = ['sliding-gates', 'swing-gates', 'sectional-gates'].includes(currentProduct?.id || '');
+    const addWicket = watch('add_wicket');
+    const wicketRule = PRICING_RULES['wicket'];
 
     const rule = currentProduct ? PRICING_RULES[currentProduct.id] : null;
 
@@ -319,6 +324,154 @@ export const CalculatorForm = () => {
                         })()}
                     </CardContent>
                 </Card>
+            )}
+
+            {/* Wicket Section if added */}
+            {isGateProduct && addWicket && (
+                <div className="space-y-6 pt-4 border-t-2 border-dashed border-slate-200">
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-xl font-bold text-slate-900">Дополнительно: Калитка</h2>
+                        <Button
+                            type="button"
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => setValue('add_wicket', false)}
+                            className="flex items-center gap-2"
+                        >
+                            <Trash2 size={16} />
+                            Удалить калитку
+                        </Button>
+                    </div>
+
+                    <Card className="border-blue-100 bg-blue-50/10">
+                        <CardContent className="pt-6 space-y-8">
+                            {(() => {
+                                if (!wicketRule) return null;
+                                const sections: Record<string, any[]> = {};
+                                wicketRule.options?.forEach(opt => {
+                                    const section = opt.section || 'Общее';
+                                    if (!sections[section]) sections[section] = [];
+                                    sections[section].push(opt);
+                                });
+
+                                return Object.entries(sections).map(([sectionTitle, options]) => (
+                                    <div key={sectionTitle} className="space-y-6">
+                                        <h3 className="font-semibold text-slate-900 border-b border-blue-100 pb-2 mb-4">{sectionTitle}</h3>
+                                        <div className="grid gap-6">
+                                            {options.map((option) => (
+                                                <div key={option.id} className="space-y-2">
+                                                    <Label className="text-base">{option.label}</Label>
+
+                                                    {option.type === 'select' && (
+                                                        <Controller
+                                                            name={`wicket_${option.id}`}
+                                                            control={control}
+                                                            render={({ field }) => (
+                                                                <div className="relative">
+                                                                    <Select onValueChange={field.onChange} value={field.value || ""}>
+                                                                        <SelectTrigger className="h-12 bg-white">
+                                                                            <SelectValue placeholder="Выберите..." />
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                                                            {option.options?.map((opt: any) => (
+                                                                                <SelectItem key={opt.value} value={opt.value}>
+                                                                                    {opt.label} {opt.price > 0 ? ` (+${opt.price} сом)` : ''}
+                                                                                </SelectItem>
+                                                                            ))}
+                                                                        </SelectContent>
+                                                                    </Select>
+                                                                    {field.value && (
+                                                                        <button
+                                                                            type="button"
+                                                                            onClick={(e) => {
+                                                                                e.preventDefault();
+                                                                                field.onChange("");
+                                                                            }}
+                                                                            className="absolute right-9 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 z-20"
+                                                                        >
+                                                                            <X size={16} />
+                                                                        </button>
+                                                                    )}
+                                                                </div>
+                                                            )}
+                                                        />
+                                                    )}
+
+                                                    {option.type === 'number' && (
+                                                        <div className="flex items-center gap-2">
+                                                            <Input
+                                                                type="number"
+                                                                className="h-12 bg-white"
+                                                                placeholder="0"
+                                                                {...register(`wicket_${option.id}`)}
+                                                            />
+                                                            {option.unit && <span className="text-sm text-slate-500 whitespace-nowrap">{option.unit}</span>}
+                                                        </div>
+                                                    )}
+
+                                                    {option.type === 'input' && (
+                                                        <Input
+                                                            type="text"
+                                                            className="h-12 bg-white"
+                                                            {...register(`wicket_${option.id}`)}
+                                                        />
+                                                    )}
+
+                                                    {option.type === 'boolean' && (
+                                                        <Controller
+                                                            name={`wicket_${option.id}`}
+                                                            control={control}
+                                                            render={({ field }) => (
+                                                                <div className="relative">
+                                                                    <Select onValueChange={field.onChange} value={field.value || ""}>
+                                                                        <SelectTrigger className="h-12 bg-white">
+                                                                            <SelectValue placeholder="Выберите..." />
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                                                            <SelectItem value="no">Нет</SelectItem>
+                                                                            <SelectItem value="yes">Да</SelectItem>
+                                                                        </SelectContent>
+                                                                    </Select>
+                                                                    {field.value && (
+                                                                        <button
+                                                                            type="button"
+                                                                            onClick={(e) => {
+                                                                                e.preventDefault();
+                                                                                field.onChange("");
+                                                                            }}
+                                                                            className="absolute right-9 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 z-20"
+                                                                        >
+                                                                            <X size={16} />
+                                                                        </button>
+                                                                    )}
+                                                                </div>
+                                                            )}
+                                                        />
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ));
+                            })()}
+                        </CardContent>
+                    </Card>
+                </div>
+            )}
+
+            {/* Add Wicket Button */}
+            {isGateProduct && !addWicket && (
+                <div className="flex justify-center py-4">
+                    <Button
+                        type="button"
+                        variant="outline"
+                        className="h-14 px-8 border-2 border-blue-500 text-blue-600 hover:bg-blue-50 font-semibold text-lg gap-2 rounded-xl transition-all hover:scale-105"
+                        onClick={() => setValue('add_wicket', true)}
+                    >
+                        <Plus size={24} />
+                        Добавить калитку
+                    </Button>
+                </div>
             )}
 
             {/* Contact Section */}

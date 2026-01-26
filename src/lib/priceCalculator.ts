@@ -559,6 +559,31 @@ export const calculatePrice = (currentProduct: Product | null, formData: Record<
     }
 
 
+    // --- 5.7. Optional Wicket for Gates ---
+    if (formData.add_wicket && currentProduct.id !== 'wicket') {
+        const wicketProduct = { id: 'wicket', name: 'Калитка' } as Product;
+        const wicketFormData: Record<string, any> = {};
+
+        // Extract wicket-prefixed fields
+        Object.keys(formData).forEach(key => {
+            if (key.startsWith('wicket_')) {
+                const wicketKey = key.replace('wicket_', '');
+                wicketFormData[wicketKey] = formData[key];
+            }
+        });
+
+        // Recursively calculate wicket price
+        const wicketResult = calculatePrice(wicketProduct, wicketFormData);
+
+        // Add items to the main list
+        wicketResult.items.forEach(item => {
+            items.push({
+                ...item,
+                description: `[Калитка] ${item.description}`
+            });
+        });
+    }
+
     // --- 6. Calculate Final Total ---
     // Total = (UnitStructurePrice * GlobalQty) + TotalOptionsSum
     // Do we need to recalc?
